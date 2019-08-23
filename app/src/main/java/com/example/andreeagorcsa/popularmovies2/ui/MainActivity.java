@@ -2,6 +2,7 @@ package com.example.andreeagorcsa.popularmovies2.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.adapters.MovieAdapter;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     // creates an instance of the DatabaseHelper
     private DatabaseHelper movieDb;
 
+    private ToggleButton mFavouriteButton;
+
     @BindView(R.id.movie_recycler_view)
     RecyclerView mMovieRecyclerView;
     // by default the value of sortType is "popular"
@@ -58,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        mFavouriteButton = findViewById(R.id.button_favorite);
 
         getSupportActionBar().setTitle("Popular Movies");
 
@@ -190,5 +196,42 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                 Toast.makeText(MainActivity.this, "Your movie list is empty", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void addToFavourite() {
+        mFavouriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                boolean isFavourite = readState();
+
+                if (isFavourite) {
+                    mFavouriteButton.setBackgroundResource(R.drawable.ic_favorite);
+                    isFavourite = false;
+                    saveState(isFavourite);
+                    //movieDb.insertData();
+
+                } else {
+                    mFavouriteButton.setBackgroundResource(R.drawable.ic_favorite_border);
+                    isFavourite = true;
+                    saveState(isFavourite);
+                    //movieDb.deleteData();
+                }
+            }
+        });
+    }
+    private void saveState(boolean isFavourite) {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(
+                "Favourite", Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences
+                .edit();
+        sharedPreferencesEdit.putBoolean("State", isFavourite);
+        sharedPreferencesEdit.commit();
+    }
+
+    private boolean readState() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(
+                "Favourite", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("State", true);
     }
 }
