@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="elevation">4dp</dimen>
+    <dimen name="poster_elevation">8dp</dimen>
+    <dimen name="layout_margin">10dp</dimen>
+    <dimen name="text_size_title">24sp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="poster_width">120dp</dimen>
+    <dimen name="poster_height">180dp</dimen>
+    <dimen name="card_view_margin">2dp</dimen>
+</resources>

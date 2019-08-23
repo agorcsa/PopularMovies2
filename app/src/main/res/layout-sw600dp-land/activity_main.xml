@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".ui.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/tab_layout_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/movie_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorBlack" />
+
+    <LinearLayout
+        android:id="@+id/video_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6"
+        android:orientation="vertical">
+
+        <include
+
+            layout="@layout/activity_detail" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Popular Movies 2</string>
+    <string name="app_detail">Detail Activity</string>
+
+
+    <string-array name="change_movie">
+        <item>Choose...</item>
+        <item>top rated</item>
+        <item>most popular</item>
+    </string-array>
+
+    <string name="poster_background">fade_background</string>
+    <string name="white_background">white_background</string>
+    <string name="movie_poster_center">center_poster</string>
+    <string name="movie_title_detail">movie_title</string>
+    <string name="movie_release_date">movie_date</string>
+</resources>
