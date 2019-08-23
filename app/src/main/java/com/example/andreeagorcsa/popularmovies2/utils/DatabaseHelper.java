@@ -1,5 +1,6 @@
 package com.example.andreeagorcsa.popularmovies2.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -28,7 +29,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.i(LOG_TAG, "error");
-        SQLiteDatabase db = this.getWritableDatabase();
     }
 
 
@@ -51,5 +51,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         //if (DATABASE_VERSION == DATABASE_VERSION + 1)
         onCreate(db);
+    }
+
+    public boolean insertData(int id, String title, String poster, String url, String synopsis, double rating, double popularity, String date) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MOVIE_ID, id);
+        contentValues.put(ORIGINAL_TITLE, title);
+        contentValues.put(POSTER, poster);
+        contentValues.put(URL, url);
+        contentValues.put(PLOT_SYNOPSIS, synopsis);
+        contentValues.put(USER_RATING, rating);
+        contentValues.put(POPULARITY, popularity);
+        contentValues.put(RELEASE_DATE, date);
+
+        // the database insertion can return -1 in case of failure
+        long result = db.insert(TABLE_NAME, null, contentValues);
+        // in case the insertion failed, return false
+        if (result == -1) {
+            return false;
+        }
+        // otherwise, return true
+        return true;
     }
 }
