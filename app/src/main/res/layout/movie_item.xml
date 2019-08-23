@@ -57,7 +57,7 @@
                     android:checked="false"
                     android:text=""
                     android:textOff=""
-                    android:textOn="" />
+                    android:textOn=""/>
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
