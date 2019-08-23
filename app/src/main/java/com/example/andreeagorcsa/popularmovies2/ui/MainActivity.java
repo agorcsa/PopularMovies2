@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         }
     }
 
+    // should be accessed when clicking on the heart button
     public void addToFavourite() {
         mFavouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
