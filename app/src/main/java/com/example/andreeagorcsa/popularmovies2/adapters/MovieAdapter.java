@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
@@ -97,6 +98,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
         ImageView mMoviePosterImageView;
         @BindView(R.id.movie_title)
         TextView mMovieTitleTextView;
+
 
         public MovieItemViewHolder(View itemView) {
             super(itemView);
