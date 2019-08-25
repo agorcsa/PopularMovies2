@@ -5,8 +5,10 @@
 
     <string-array name="change_movie">
         <item>Choose...</item>
-        <item>top rated</item>
         <item>most popular</item>
+        <item>top rated</item>
+        <item>favorite</item>
+
     </string-array>
 
     <string name="poster_background">fade_background</string>

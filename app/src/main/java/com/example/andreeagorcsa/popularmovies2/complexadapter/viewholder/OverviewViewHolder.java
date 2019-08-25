@@ -23,8 +23,8 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder {
     public @BindView(R.id.play_trailer_button)
     Button mPlayTrailer;
 
-    public @BindView(R.id.watched_list_button)
-    Button mWatchedList;
+    public @BindView(R.id.favorite_list_button)
+    Button mFavoriteList;
 
     public @BindView(R.id.movie_poster_detail)
     ImageView mMoviePoster;

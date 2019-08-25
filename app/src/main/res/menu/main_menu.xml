@@ -8,6 +8,7 @@
         android:id="@+id/action_change_movie"
         android:icon="@drawable/ic_menu"
         android:title="MovieMenu"
+        android:orderInCategory="1"
         app:actionViewClass="android.widget.Spinner"
         app:showAsAction="always" />
 </menu>

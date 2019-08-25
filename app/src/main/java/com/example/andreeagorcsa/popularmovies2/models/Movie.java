@@ -68,6 +68,14 @@ public class Movie implements Parcelable {
         releaseDate = in.readString();
     }
 
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
     /**
      * Creates the Sring URL for the movie poster
      *
@@ -112,7 +120,7 @@ public class Movie implements Parcelable {
     }
 
     public double getVoteAverage() {
-        return  userRating;
+        return userRating;
     }
 
     public void setVoteAverage(double voteAverage) {

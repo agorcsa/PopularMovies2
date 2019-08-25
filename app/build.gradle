@@ -46,4 +46,8 @@ dependencies {
 
     // add v4 library for NestedScrollView
     implementation 'com.android.support:support-core-ui:28.0.0'
+
+    // toolbar dependency
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 }

@@ -1,4 +1,4 @@
-package com.example.andreeagorcsa.popularmovies2.utils;
+package com.example.andreeagorcsa.popularmovies2.database;
 
 import android.content.ContentValues;
 import android.content.Context;

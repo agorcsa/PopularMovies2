@@ -62,7 +62,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/watched_list_button"
+                android:id="@+id/plus_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
@@ -73,7 +73,7 @@
                 android:elevation="4dp"
                 android:paddingLeft="@dimen/layout_margin"
                 android:paddingRight="@dimen/layout_margin"
-                android:text="Watched List"
+                android:text="Favorite List"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold" />

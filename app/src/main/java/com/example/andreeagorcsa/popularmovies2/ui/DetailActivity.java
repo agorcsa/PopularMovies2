@@ -1,6 +1,8 @@
 package com.example.andreeagorcsa.popularmovies2.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,9 +16,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerViewHolder;
+import com.example.andreeagorcsa.popularmovies2.database.DatabaseHelper;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.models.Review;
 import com.example.andreeagorcsa.popularmovies2.models.Trailer;
@@ -44,10 +48,24 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     private ComplexAdapter mComplexAdapter;
 
+    // new block added 25.08.2019
     private int mMovieId;
+    private String mOriginalTitle;
+    private String mMoviePoster;
+    private String mFinalUrl;
+    private String mPlotSynopsis;
+    private double mUserRating;
+    private double mPopularity;
+    private String mReleaseDate;
 
     private List<Review> mReviewList = new ArrayList<>();
     private List<Trailer> mTrailerList = new ArrayList<>();
+
+    private Button mFavouriteButton;
+
+    // creates an instance of the DatabaseHelper
+    private DatabaseHelper movieDb;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +74,9 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
         ButterKnife.bind(this);
 
-        getSupportActionBar().hide();
+        mFavouriteButton = findViewById(R.id.plus_button);
+
+        //getSupportActionBar().hide();
 
         buildComplexRecyclerView();
 
@@ -64,6 +84,9 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
         new ReviewAsyncTask().execute(JsonUtils.MOVIE_ID);
         new TrailerAsyncTask().execute(JsonUtils.MOVIE_ID);
+
+        // created a db by reading the constructor from DatabaseHelper class
+        movieDb = new DatabaseHelper(this);
     }
 
     private void buildComplexRecyclerView() {
@@ -153,4 +176,64 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
             }
         }
     }
+
+    private void addToFavorite(){
+        mFavouriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isFavourite = readState();
+
+                if (isFavourite) {
+                    Toast.makeText(DetailActivity.this, " + delete from favorite", Toast.LENGTH_LONG).show();
+                    // - should appear
+                    // TO DO
+                    // change the picture
+                    //mFavouriteButton.setBackgroundResource(R.drawable.ic_favorite);
+                    isFavourite = false;
+                    saveState(isFavourite);
+                    //movieDb.deleteData();
+
+
+                } else {
+                    Toast.makeText(DetailActivity.this, " + add to favorite", Toast.LENGTH_LONG).show();
+                    // + should appear
+                    // TO DO
+                    // change the picture
+                   //mFavouriteButton.setBackgroundResource(R.drawable.ic_favorite_border);
+                    isFavourite = true;
+                    saveState(isFavourite);
+                    // get data from Parcel
+                    Movie movie = getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT);
+                    mMovieId = movie.getMovieId();
+                    mOriginalTitle = movie.getOriginalTitle();
+                    mMoviePoster = movie.getPosterPath();
+                    // mFinalUrl
+                    mFinalUrl = JsonUtils.BASE_URL.concat(JsonUtils.POSTER_SIZE).concat(JsonUtils.POSTER_PATH);
+                    mPlotSynopsis = movie.getOverview();
+                    mPopularity = movie.getPopularity();
+                    mUserRating = movie.getVoteAverage();
+                    mReleaseDate = movie.getReleaseDate();
+
+                    // insert data to the  movieDb
+                    movieDb.insertData(mMovieId, mOriginalTitle, mMoviePoster, mFinalUrl, mPlotSynopsis, mUserRating, mPopularity, mReleaseDate);
+                }
+            }
+        });
+    }
+
+    private void saveState(boolean isFavourite) {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(
+                "Favourite", Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences
+                .edit();
+        sharedPreferencesEdit.putBoolean("State", isFavourite);
+        sharedPreferencesEdit.commit();
+    }
+
+    private boolean readState() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences(
+                "Favourite", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("State", true);
+    }
+
 }
