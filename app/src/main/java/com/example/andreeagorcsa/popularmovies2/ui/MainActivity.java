@@ -1,16 +1,13 @@
 package com.example.andreeagorcsa.popularmovies2.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,13 +22,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.adapters.MovieAdapter;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
-import com.example.andreeagorcsa.popularmovies2.database.DatabaseHelper;
 import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
 
 import java.io.IOException;

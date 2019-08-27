@@ -1,7 +1,6 @@
 package com.example.andreeagorcsa.popularmovies2.complexadapter;
 
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.Traile
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.models.Review;
 import com.example.andreeagorcsa.popularmovies2.models.Trailer;
-import com.example.andreeagorcsa.popularmovies2.ui.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
@@ -31,15 +29,16 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int REVIEW = 1;
     private final int TRAILER = 2;
 
+    TrailerViewHolder.ItemClickHandler itemClickHandler;
+    public final OnFavoriteClickListener favoriteClickListener;
+
     // the items to display in your RecyclerView: OverView, Review, Trailer
     private Movie mMovie;
     private List<Review> mReviewList = new ArrayList<>();
-
     private List<Trailer> mTrailerList = new ArrayList<>();
 
-    TrailerViewHolder.ItemClickHandler itemClickHandler;
-
-    public ComplexAdapter(TrailerViewHolder.ItemClickHandler itemClickHandler, Movie movie, List<Review> reviews, List<Trailer> trailers) {
+    public ComplexAdapter(TrailerViewHolder.ItemClickHandler itemClickHandler, OnFavoriteClickListener favoriteClickListener, Movie movie, List<Review> reviews, List<Trailer> trailers) {
+        this.favoriteClickListener = favoriteClickListener;
         mMovie = movie;
         mReviewList = reviews;
         mTrailerList = trailers;
@@ -130,7 +129,7 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        if ( mMovie == null && mReviewList == null && mTrailerList == null) {
+        if (mMovie == null && mReviewList == null && mTrailerList == null) {
             return 0;
         }
         return 1 + mReviewList.size() + mTrailerList.size();
@@ -162,4 +161,9 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return TRAILER;
         }
     }
+
+    public interface OnFavoriteClickListener{
+        void onFavoriteButtonClick(int position);
+    }
+
 }

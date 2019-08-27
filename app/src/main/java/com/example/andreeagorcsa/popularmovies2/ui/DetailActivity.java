@@ -1,8 +1,6 @@
 package com.example.andreeagorcsa.popularmovies2.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,12 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerViewHolder;
@@ -26,28 +19,24 @@ import com.example.andreeagorcsa.popularmovies2.models.Review;
 import com.example.andreeagorcsa.popularmovies2.models.Trailer;
 import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.ComplexAdapter;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements TrailerViewHolder.ItemClickHandler {
+public class DetailActivity extends AppCompatActivity implements TrailerViewHolder.ItemClickHandler, ComplexAdapter.OnFavoriteClickListener {
 
-    public static final String LOG_TAG = MainActivity.class.getName();
+    public static final String LOG_TAG = DetailActivity.class.getName();
 
     public static final String VIDEO_URI = "http://www.youtube.com/watch?v=";
-
+    public boolean isFavorite;
     // complex RecyclerView
     @BindView(R.id.complex_recycler_view)
     RecyclerView mComplexRecyclerView;
-
     private ComplexAdapter mComplexAdapter;
-
     // new block added 25.08.2019
     private int mMovieId;
     private String mOriginalTitle;
@@ -57,12 +46,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     private double mUserRating;
     private double mPopularity;
     private String mReleaseDate;
-
     private List<Review> mReviewList = new ArrayList<>();
     private List<Trailer> mTrailerList = new ArrayList<>();
-
-    private Button mFavouriteButton;
-
     // creates an instance of the DatabaseHelper
     private DatabaseHelper movieDb;
 
@@ -73,8 +58,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         setContentView(R.layout.activity_detail);
 
         ButterKnife.bind(this);
-
-        mFavouriteButton = findViewById(R.id.plus_button);
 
         //getSupportActionBar().hide();
 
@@ -91,8 +74,8 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     private void buildComplexRecyclerView() {
         Movie movie = getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT);
-        mComplexAdapter = new ComplexAdapter(this, movie, mReviewList, mTrailerList);
-        RecyclerView.LayoutManager complexLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
+        mComplexAdapter = new ComplexAdapter( this, (ComplexAdapter.OnFavoriteClickListener) this, movie, mReviewList, mTrailerList);
+        RecyclerView.LayoutManager complexLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mComplexRecyclerView.setLayoutManager(complexLayoutManager);
         mComplexRecyclerView.setAdapter(mComplexAdapter);
     }
@@ -111,6 +94,11 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_URI + trailerKey)));
     }
 
+    @Override
+    public void onFavoriteButtonClick(int position) {
+        Log.i(LOG_TAG, "+ capsule button was clicked");
+        Toast.makeText(getApplicationContext(), "capsule button was clicked", Toast.LENGTH_LONG).show();
+    }
 
     /**
      * runs the fetchReviewData(reviewsUrl) method at the background thread
@@ -176,64 +164,4 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
             }
         }
     }
-
-    private void addToFavorite(){
-        mFavouriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isFavourite = readState();
-
-                if (isFavourite) {
-                    Toast.makeText(DetailActivity.this, " + delete from favorite", Toast.LENGTH_LONG).show();
-                    // - should appear
-                    // TO DO
-                    // change the picture
-                    //mFavouriteButton.setBackgroundResource(R.drawable.ic_favorite);
-                    isFavourite = false;
-                    saveState(isFavourite);
-                    //movieDb.deleteData();
-
-
-                } else {
-                    Toast.makeText(DetailActivity.this, " + add to favorite", Toast.LENGTH_LONG).show();
-                    // + should appear
-                    // TO DO
-                    // change the picture
-                   //mFavouriteButton.setBackgroundResource(R.drawable.ic_favorite_border);
-                    isFavourite = true;
-                    saveState(isFavourite);
-                    // get data from Parcel
-                    Movie movie = getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT);
-                    mMovieId = movie.getMovieId();
-                    mOriginalTitle = movie.getOriginalTitle();
-                    mMoviePoster = movie.getPosterPath();
-                    // mFinalUrl
-                    mFinalUrl = JsonUtils.BASE_URL.concat(JsonUtils.POSTER_SIZE).concat(JsonUtils.POSTER_PATH);
-                    mPlotSynopsis = movie.getOverview();
-                    mPopularity = movie.getPopularity();
-                    mUserRating = movie.getVoteAverage();
-                    mReleaseDate = movie.getReleaseDate();
-
-                    // insert data to the  movieDb
-                    movieDb.insertData(mMovieId, mOriginalTitle, mMoviePoster, mFinalUrl, mPlotSynopsis, mUserRating, mPopularity, mReleaseDate);
-                }
-            }
-        });
-    }
-
-    private void saveState(boolean isFavourite) {
-        SharedPreferences sharedPreferences = this.getSharedPreferences(
-                "Favourite", Context.MODE_PRIVATE);
-        SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences
-                .edit();
-        sharedPreferencesEdit.putBoolean("State", isFavourite);
-        sharedPreferencesEdit.commit();
-    }
-
-    private boolean readState() {
-        SharedPreferences sharedPreferences = this.getSharedPreferences(
-                "Favourite", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("State", true);
-    }
-
 }
