@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
+import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.OverviewViewHolder;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerViewHolder;
 import com.example.andreeagorcsa.popularmovies2.database.DatabaseHelper;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
@@ -27,7 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements TrailerViewHolder.ItemClickHandler, ComplexAdapter.OnFavoriteClickListener {
+public class DetailActivity extends AppCompatActivity implements TrailerViewHolder.ItemClickHandler, OverviewViewHolder.FavoriteClickHandler {
 
     public static final String LOG_TAG = DetailActivity.class.getName();
 
@@ -74,7 +75,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     private void buildComplexRecyclerView() {
         Movie movie = getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT);
-        mComplexAdapter = new ComplexAdapter( this, (ComplexAdapter.OnFavoriteClickListener) this, movie, mReviewList, mTrailerList);
+        mComplexAdapter = new ComplexAdapter(this,this, movie, mReviewList, mTrailerList);
         RecyclerView.LayoutManager complexLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mComplexRecyclerView.setLayoutManager(complexLayoutManager);
         mComplexRecyclerView.setAdapter(mComplexAdapter);
@@ -95,9 +96,11 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     }
 
     @Override
-    public void onFavoriteButtonClick(int position) {
+    public void onFavoriteClick(Movie movie) {
         Log.i(LOG_TAG, "+ capsule button was clicked");
-        Toast.makeText(getApplicationContext(), "capsule button was clicked", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "+ capsule button was clicked", Toast.LENGTH_LONG).show();
+
+
     }
 
     /**

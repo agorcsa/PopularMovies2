@@ -30,19 +30,20 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int TRAILER = 2;
 
     TrailerViewHolder.ItemClickHandler itemClickHandler;
-    public final OnFavoriteClickListener favoriteClickListener;
+
+    OverviewViewHolder.FavoriteClickHandler favoriteClickHandler;
 
     // the items to display in your RecyclerView: OverView, Review, Trailer
     private Movie mMovie;
     private List<Review> mReviewList = new ArrayList<>();
     private List<Trailer> mTrailerList = new ArrayList<>();
 
-    public ComplexAdapter(TrailerViewHolder.ItemClickHandler itemClickHandler, OnFavoriteClickListener favoriteClickListener, Movie movie, List<Review> reviews, List<Trailer> trailers) {
-        this.favoriteClickListener = favoriteClickListener;
+    public ComplexAdapter(OverviewViewHolder.FavoriteClickHandler favoriteClickHandler, TrailerViewHolder.ItemClickHandler itemClickHandler, Movie movie, List<Review> reviews, List<Trailer> trailers) {
         mMovie = movie;
         mReviewList = reviews;
         mTrailerList = trailers;
         this.itemClickHandler = itemClickHandler;
+        this.favoriteClickHandler = favoriteClickHandler;
     }
 
     @NonNull
@@ -109,6 +110,7 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         String releaseDate = mMovie.getReleaseDate();
         vh1.mMovieDate.setText(releaseDate);
+        vh1.setFavoriteClickHandler(favoriteClickHandler,mMovie);
     }
 
     private void configureReviewViewHolder(ReviewViewHolder vh2, int position) {
@@ -160,10 +162,6 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             return TRAILER;
         }
-    }
-
-    public interface OnFavoriteClickListener{
-        void onFavoriteButtonClick(int position);
     }
 
 }

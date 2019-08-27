@@ -11,12 +11,14 @@ import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.ComplexAdapter;
+import com.example.andreeagorcsa.popularmovies2.models.Movie;
+import com.example.andreeagorcsa.popularmovies2.models.Trailer;
 import com.example.andreeagorcsa.popularmovies2.ui.DetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OverviewViewHolder extends RecyclerView.ViewHolder {
+public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public static final String LOG_TAG = "DetailActivity";
 
@@ -41,14 +43,27 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder {
     public @BindView(R.id.plus_button)
     Button mFavoriteButton;
 
+    Movie movie;
+
+    private FavoriteClickHandler favoriteClickHandler;
+
     public OverviewViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        mFavoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mFavoriteButton.setOnClickListener(this);
+    }
 
-            }
-        });
+    public void setFavoriteClickHandler(FavoriteClickHandler favoriteClickHandler, Movie movie) {
+        this.favoriteClickHandler = favoriteClickHandler;
+        this.movie = movie;
+    }
+
+    @Override
+    public void onClick(View v) {
+        favoriteClickHandler.onFavoriteClick(movie);
+    }
+
+    public interface FavoriteClickHandler {
+        void onFavoriteClick(Movie movie);
     }
 }
