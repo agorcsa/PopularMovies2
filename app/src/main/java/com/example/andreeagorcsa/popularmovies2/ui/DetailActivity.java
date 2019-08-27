@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
@@ -33,7 +34,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     public static final String LOG_TAG = DetailActivity.class.getName();
 
     public static final String VIDEO_URI = "http://www.youtube.com/watch?v=";
-    public boolean isFavorite;
+    public boolean mIsFavorite;
     // complex RecyclerView
     @BindView(R.id.complex_recycler_view)
     RecyclerView mComplexRecyclerView;
@@ -75,7 +76,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     private void buildComplexRecyclerView() {
         Movie movie = getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT);
-        mComplexAdapter = new ComplexAdapter(this,this, movie, mReviewList, mTrailerList);
+        mComplexAdapter = new ComplexAdapter(this, this, movie, mReviewList, mTrailerList);
         RecyclerView.LayoutManager complexLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mComplexRecyclerView.setLayoutManager(complexLayoutManager);
         mComplexRecyclerView.setAdapter(mComplexAdapter);
@@ -96,11 +97,30 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     }
 
     @Override
-    public void onFavoriteClick(Movie movie) {
+    public void onFavoriteClick(Movie movie, Button button) {
         Log.i(LOG_TAG, "+ capsule button was clicked");
         Toast.makeText(getApplicationContext(), "+ capsule button was clicked", Toast.LENGTH_LONG).show();
 
+        if (mIsFavorite) {
+            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
+            mIsFavorite = false;
+        } else {
+            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
+            mIsFavorite = true;
+        }
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(String.valueOf(mIsFavorite), true);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null)
+            mIsFavorite = savedInstanceState.getBoolean(String.valueOf(mIsFavorite));
     }
 
     /**

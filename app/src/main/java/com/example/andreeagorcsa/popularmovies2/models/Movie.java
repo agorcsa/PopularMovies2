@@ -32,6 +32,7 @@ public class Movie implements Parcelable {
     public double userRating;
     public double popularity;
     public String releaseDate;
+    public boolean isFavorite;
 
     // Empty constructor for Parcel
     public Movie() {

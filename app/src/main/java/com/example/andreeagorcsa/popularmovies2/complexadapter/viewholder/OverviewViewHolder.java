@@ -1,8 +1,11 @@
 package com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -52,7 +55,6 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
         ButterKnife.bind(this, itemView);
         mFavoriteButton.setOnClickListener(this);
     }
-
     public void setFavoriteClickHandler(FavoriteClickHandler favoriteClickHandler, Movie movie) {
         this.favoriteClickHandler = favoriteClickHandler;
         this.movie = movie;
@@ -60,10 +62,10 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View v) {
-        favoriteClickHandler.onFavoriteClick(movie);
+        favoriteClickHandler.onFavoriteClick(movie, mFavoriteButton);
     }
 
     public interface FavoriteClickHandler {
-        void onFavoriteClick(Movie movie);
+        void onFavoriteClick(Movie movie, Button button);
     }
 }
