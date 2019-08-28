@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     public static final String MOVIE_OBJECT = "movie_object";
     public static final String TOP_RATED = "top rated";
     public static final String MOST_POPULAR = "most popular";
-    public static final String IS_FAVORITE = "is_favorite";
+    public static final String IS_FAVORITE = "favorite";
     public static final String SORT_TYPE = "sort_type";
     public static final String SPINNER_ITEM = "spinner_item";
 
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                     new MovieAsyncTask().execute(sortType);
                 } else  if ((parent.getItemAtPosition(position).equals(IS_FAVORITE))){
                     Toast.makeText(getApplicationContext(),  spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
-                    sortType = "is_favorite";
+                    sortType = "favorite";
                     // new MovieAsyncTask().execute(sortType);
                 } else {
                     // no toast
