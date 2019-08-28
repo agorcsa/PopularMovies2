@@ -218,6 +218,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         }
     }
 
+    // TO DO: create a new AsyncTask for favorite movies
+    public  class FavoriteAsyncTask extends AsyncTask<String, Void, List<Movie>> {
+
+        @Override
+        protected List<Movie> doInBackground(String... strings) {
+            return null;
+        }
+    }
+
 
     // TO DO: need to decide where to call this method
     public void extractFavoriteMovies() {

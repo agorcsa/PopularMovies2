@@ -117,12 +117,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         //Toast.makeText(getApplicationContext(), "+ capsule button was clicked", Toast.LENGTH_LONG).show();
 
         if (mIsFavorite) {
-            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
+            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
             DeleteData();
             mIsFavorite = false;
 
         } else {
-            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
+            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
             InsertData();
             mIsFavorite = true;
         }
