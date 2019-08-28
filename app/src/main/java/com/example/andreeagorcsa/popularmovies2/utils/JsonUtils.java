@@ -239,7 +239,10 @@ public class JsonUtils {
 
                 String releaseDate = movieObject.optString(RELEASE_DATE);
 
-                Movie movie = new Movie(id, originalTitle, moviePoster, overview, voteAverage, popularity, releaseDate);
+                // TO DO
+                boolean isFavorite = false;
+
+                Movie movie = new Movie(id, originalTitle, moviePoster, overview, voteAverage, popularity, releaseDate, isFavorite);
                 movieList.add(movie);
 
             }

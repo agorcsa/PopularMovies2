@@ -2,6 +2,7 @@ package com.example.andreeagorcsa.popularmovies2.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // movie table
     public static final String TABLE_NAME = "movie_table";
     // columns of the movie table
+    public static final String ID = "ID";
     public static final String MOVIE_ID = "MOVIE_ID";
     public static final String ORIGINAL_TITLE = "ORIGINAL_TITLE";
     public static final String POSTER = "POSTER";
@@ -73,5 +75,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         // otherwise, return true
         return true;
+    }
+
+    public Integer deleteData(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME, "MOVIE_ID = ?", new String[]{id});
+    }
+
+    public Cursor getFavoriteMovies() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // creates an instance of the Cursor interface
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
+        return cursor;
     }
 }

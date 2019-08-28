@@ -3,11 +3,13 @@ package com.example.andreeagorcsa.popularmovies2.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.adapters.MovieAdapter;
+import com.example.andreeagorcsa.popularmovies2.database.DatabaseHelper;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
 
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private Toolbar mToolbar;
     private Button mHeartButton;
 
+    private DatabaseHelper movieDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             sortType = savedInstanceState.getString(SORT_TYPE);
             //yourSpinner.setSelection(savedInstanceState.getInt("yourSpinner", 0));
         }
+
+        movieDb = new DatabaseHelper(this);
     }
 
     @Override
@@ -211,41 +218,41 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         }
     }
 
-    // should be accessed when clicking on "heart" favorite button from the toolbar
-    public void showFavouriteMovies() {
-        mHeartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                boolean isFavourite = readState();
-
-                if (isFavourite) {
-                    isFavourite = false;
-                    saveState(isFavourite);
-                    // show top rated/ most popular
-
-                } else {
-                    isFavourite = true;
-                    saveState(isFavourite);
-                    //show the favorite movies
-                }
+    // TO DO: need to decide where to call this method
+    public void extractFavoriteMovies() {
+        Cursor cursor = movieDb.getFavoriteMovies();
+        if (cursor.getCount() == 0) {
+            showMessage("Favorite Movies", "No favorite movies so far");
+            return;
+        } else {
+            StringBuffer buffer = new StringBuffer();
+            while (cursor.moveToNext()) {
+                buffer.append("ID: " + cursor.getInt(0) + "\n");
+                buffer.append("MOVIE_ID: " + cursor.getInt(1) + "\n");
+                buffer.append("ORIGINAL_TITLE: " + cursor.getInt(2) + "\n");
+                buffer.append("POSTER: " + cursor.getInt(3) + "\n");
+                buffer.append("URL: " + cursor.getInt(4) + "\n");
+                buffer.append("PLOT_SYNOPSIS: " + cursor.getInt(5) + "\n");
+                buffer.append("USER_RATING: " + cursor.getInt(6) + "\n");
+                buffer.append("POPULARITY: " + cursor.getInt(7) + "\n");
+                buffer.append("RELEASE_DATE: " + cursor.getInt(8) + "\n\n");
             }
-        });
+
+            showMessage("Favorite Movies", buffer.toString());
+        }
     }
 
-    private void saveState(boolean isFavourite) {
-        SharedPreferences sharedPreferences = this.getSharedPreferences(
-                "Favourite", Context.MODE_PRIVATE);
-        SharedPreferences.Editor sharedPreferencesEdit = sharedPreferences
-                .edit();
-        sharedPreferencesEdit.putBoolean("State", isFavourite);
-        sharedPreferencesEdit.commit();
+    // TO DO: displays the favorite movies in the MainActivity
+    // TO DO: need to decide where to call this method
+    public void showFavoriteMovies(){
+
     }
 
-    private boolean readState() {
-        SharedPreferences sharedPreferences = this.getSharedPreferences(
-                "Favourite", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("State", true);
+    public void showMessage(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
     }
-
 }

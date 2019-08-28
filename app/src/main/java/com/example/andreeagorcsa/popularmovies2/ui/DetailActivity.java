@@ -1,6 +1,7 @@
 package com.example.andreeagorcsa.popularmovies2.ui;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -59,6 +60,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        // TO DO
+        if (savedInstanceState != null) {
+            savedInstanceState.putBoolean(String.valueOf(mIsFavorite), true);
+            mIsFavorite = savedInstanceState.getBoolean(String.valueOf(mIsFavorite));
+        }
+
         ButterKnife.bind(this);
 
         //getSupportActionBar().hide();
@@ -88,6 +95,14 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         mComplexAdapter.updateMovie(movie);
 
         mMovieId = movie.getMovieId();
+        mOriginalTitle = movie.getOriginalTitle();
+        mMoviePoster = movie.getPosterPath();
+        mFinalUrl = JsonUtils.BASE_URL.concat(JsonUtils.POSTER_SIZE).concat(JsonUtils.POSTER_PATH);
+        mPlotSynopsis = movie.getOverview();
+        mPopularity = movie.getPopularity();
+        mUserRating = movie.getVoteAverage();
+        mReleaseDate = movie.getReleaseDate();
+        mIsFavorite = movie.getIsFavorite();
     }
 
     @Override
@@ -99,28 +114,39 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     @Override
     public void onFavoriteClick(Movie movie, Button button) {
         Log.i(LOG_TAG, "+ capsule button was clicked");
-        Toast.makeText(getApplicationContext(), "+ capsule button was clicked", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "+ capsule button was clicked", Toast.LENGTH_LONG).show();
 
         if (mIsFavorite) {
             button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
+            DeleteData();
             mIsFavorite = false;
+
         } else {
             button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
+            InsertData();
             mIsFavorite = true;
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(String.valueOf(mIsFavorite), true);
+    public void InsertData(){
+        getMovieData();
+        // TO DO: is isFavorite part of a movie that I will insert?
+        movieDb.insertData(mMovieId, mOriginalTitle, mMoviePoster, mFinalUrl, mPlotSynopsis, mUserRating, mPopularity, mReleaseDate);
+        showToast("Movie was added to favorites");
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null)
-            mIsFavorite = savedInstanceState.getBoolean(String.valueOf(mIsFavorite));
+    public void DeleteData() {
+        Integer deletedRows = movieDb.deleteData(String.valueOf(mMovieId));
+        if (deletedRows != 0) {
+            showToast("Movie was deleted from favorites");
+        } else {
+            showToast("Movie was not deleted from favorites ");
+        }
+    }
+
+
+    public void showToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     /**
