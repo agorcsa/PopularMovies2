@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -16,56 +15,46 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
-
 dependencies {
-    def lifecycle_version = "2.0.0"
-    def room_version = "2.2.0-beta01"
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //noinspection GradleCompatible
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+//noinspection GradleCompatible
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-
-    //add recycleView library
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//add recycleView library
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-
-    // cardview dependency
+// cardview dependency
     implementation 'androidx.cardview:cardview:1.0.0'
-    // appcompat library v7
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    // design library
+// appcompat library v7
+// implementation 'androidx.appcompat:appcompat:1.0.2'
+// design library
     implementation 'com.google.android.material:material:1.0.0'
-
-    // add parceler dependency
+// add parceler dependency
     implementation 'org.parceler:parceler-api:1.1.9'
     annotationProcessor 'org.parceler:parceler:1.1.9'
-
-    // add Picasso library
+// add Picasso library
     implementation 'com.squareup.picasso:picasso:2.71828'
-
-    // add Butterknife dependency
-    implementation 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
-    // add v4 library for NestedScrollView
-    implementation 'androidx.core:core:1.0.0'
-
-    // toolbar dependency
+// add Butterknife dependency
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+// add v4 library for NestedScrollView
+//implementation 'androidx.core:core:1.0.2'
+// toolbar dependency
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-
-    // expandable TextView
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+// expandable TextView
     implementation 'com.ms-square:expandableTextView:0.1.4'
-
-    // ViewModel and LiveData
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
-
-    // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+// ViewModel and LiveData
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-common-java8:2.0.0'
+// Room
+    implementation 'androidx.room:room-runtime:2.2.0-beta01'
+    annotationProcessor 'androidx.room:room-compiler:2.2.0-beta01'
 }
