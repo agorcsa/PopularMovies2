@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     @Override
     public void onItemClick(Movie movie) {
-        Intent movieIntent= new Intent(this, DetailActivity.class);
+        Intent movieIntent = new Intent(this, DetailActivity.class);
 
         movieIntent.putExtra(MOVIE_OBJECT, movie);
         startActivity(movieIntent);
@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                     Toast.makeText(getApplicationContext(), spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
                     sortType = "popular";
                     new MovieAsyncTask().execute(sortType);
-                } else  if ((parent.getItemAtPosition(position).equals(IS_FAVORITE))){
-                    Toast.makeText(getApplicationContext(),  spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
+                } else if ((parent.getItemAtPosition(position).equals(IS_FAVORITE))) {
+                    Toast.makeText(getApplicationContext(), spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
                     sortType = "favorite";
                     // new MovieAsyncTask().execute(sortType);
                 } else {
@@ -178,6 +178,43 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         });
 
         return true;
+    }
+
+    // TO DO: need to decide where to call this method
+    public void extractFavoriteMovies() {
+        Cursor cursor = movieDb.getFavoriteMovies();
+        if (cursor.getCount() == 0) {
+            showMessage("Favorite Movies", "No favorite movies so far");
+            return;
+        } else {
+            StringBuffer buffer = new StringBuffer();
+            while (cursor.moveToNext()) {
+                buffer.append("ID: " + cursor.getInt(0) + "\n");
+                buffer.append("MOVIE_ID: " + cursor.getInt(1) + "\n");
+                buffer.append("ORIGINAL_TITLE: " + cursor.getInt(2) + "\n");
+                buffer.append("POSTER: " + cursor.getInt(3) + "\n");
+                buffer.append("URL: " + cursor.getInt(4) + "\n");
+                buffer.append("PLOT_SYNOPSIS: " + cursor.getInt(5) + "\n");
+                buffer.append("USER_RATING: " + cursor.getInt(6) + "\n");
+                buffer.append("POPULARITY: " + cursor.getInt(7) + "\n");
+                buffer.append("RELEASE_DATE: " + cursor.getInt(8) + "\n\n");
+            }
+
+            showMessage("Favorite Movies", buffer.toString());
+        }
+    }
+
+    // TO DO: displays the favorite movies in the MainActivity
+    // TO DO: need to decide where to call this method
+    public void showFavoriteMovies() {
+
+    }
+
+    public void showMessage(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
     }
 
     /**
@@ -218,49 +255,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     }
 
     // TO DO: create a new AsyncTask for favorite movies
-    public  class FavoriteAsyncTask extends AsyncTask<String, Void, List<Movie>> {
+    public class FavoriteAsyncTask extends AsyncTask<String, Void, List<Movie>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
         @Override
         protected List<Movie> doInBackground(String... strings) {
             return null;
         }
-    }
 
-
-    // TO DO: need to decide where to call this method
-    public void extractFavoriteMovies() {
-        Cursor cursor = movieDb.getFavoriteMovies();
-        if (cursor.getCount() == 0) {
-            showMessage("Favorite Movies", "No favorite movies so far");
-            return;
-        } else {
-            StringBuffer buffer = new StringBuffer();
-            while (cursor.moveToNext()) {
-                buffer.append("ID: " + cursor.getInt(0) + "\n");
-                buffer.append("MOVIE_ID: " + cursor.getInt(1) + "\n");
-                buffer.append("ORIGINAL_TITLE: " + cursor.getInt(2) + "\n");
-                buffer.append("POSTER: " + cursor.getInt(3) + "\n");
-                buffer.append("URL: " + cursor.getInt(4) + "\n");
-                buffer.append("PLOT_SYNOPSIS: " + cursor.getInt(5) + "\n");
-                buffer.append("USER_RATING: " + cursor.getInt(6) + "\n");
-                buffer.append("POPULARITY: " + cursor.getInt(7) + "\n");
-                buffer.append("RELEASE_DATE: " + cursor.getInt(8) + "\n\n");
-            }
-
-            showMessage("Favorite Movies", buffer.toString());
+        @Override
+        protected void onPostExecute(List<Movie> movies) {
+            super.onPostExecute(movies);
         }
-    }
-
-    // TO DO: displays the favorite movies in the MainActivity
-    // TO DO: need to decide where to call this method
-    public void showFavoriteMovies(){
-
-    }
-
-    public void showMessage(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
     }
 }
