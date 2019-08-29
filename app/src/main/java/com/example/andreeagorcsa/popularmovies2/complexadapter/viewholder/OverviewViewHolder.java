@@ -1,22 +1,15 @@
 package com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder;
 
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.MotionEvent;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
-import com.example.andreeagorcsa.popularmovies2.complexadapter.ComplexAdapter;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
-import com.example.andreeagorcsa.popularmovies2.models.Trailer;
-import com.example.andreeagorcsa.popularmovies2.ui.DetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
