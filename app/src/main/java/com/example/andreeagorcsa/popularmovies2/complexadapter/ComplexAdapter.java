@@ -119,7 +119,7 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         String reviewContent = currentReview.getContent();
 
         vh2.mReviewAuthorTextView.setText(reviewAuthor);
-        vh2.mReviewContentTextView.setText(reviewContent);
+        vh2.expTv1.setText(reviewContent);
     }
 
     public void configureTrailerViewHolder(TrailerViewHolder vh3, int position) {

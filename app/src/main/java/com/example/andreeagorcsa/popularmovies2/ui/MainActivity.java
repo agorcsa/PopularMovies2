@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private GridLayoutManager mGridLayoutManager;
     private List<Movie> mMovieList;
     private Toolbar mToolbar;
-    private Button mHeartButton;
 
     private DatabaseHelper movieDb;
 
@@ -95,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(SORT_TYPE, sortType);
-        // outState.putInt("yourSpinner", yourSpinner.getSelectedItemPosition());
     }
 
     private void buildMovieRecyclerView() {
@@ -125,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     @Override
     public void onItemClick(Movie movie) {
         Intent movieIntent= new Intent(this, DetailActivity.class);
+
         movieIntent.putExtra(MOVIE_OBJECT, movie);
         startActivity(movieIntent);
     }

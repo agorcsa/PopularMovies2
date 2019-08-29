@@ -9,13 +9,16 @@ import com.example.andreeagorcsa.popularmovies2.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 public class ReviewViewHolder extends RecyclerView.ViewHolder {
 
     public @BindView(R.id.reviewAuthor)
     TextView mReviewAuthorTextView;
-    public @BindView(R.id.reviewContent)
-    TextView mReviewContentTextView;
+
+    public @BindView(R.id.expand_text_view)
+    ExpandableTextView expTv1;
+
 
     public ReviewViewHolder(@NonNull View itemView) {
         super(itemView);
