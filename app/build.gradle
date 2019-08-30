@@ -33,7 +33,6 @@ dependencies {
 // cardview dependency
     implementation 'androidx.cardview:cardview:1.0.0'
 // appcompat library v7
-// implementation 'androidx.appcompat:appcompat:1.0.2'
 // design library
     implementation 'com.google.android.material:material:1.0.0'
 // add parceler dependency
@@ -44,14 +43,9 @@ dependencies {
 // add Butterknife dependency
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-// add v4 library for NestedScrollView
-//implementation 'androidx.core:core:1.0.2'
-// toolbar dependency
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.2'
 // expandable TextView
     implementation 'com.ms-square:expandableTextView:0.1.4'
-// ViewModel and LiveData
+    // ViewModel and LiveData
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-common-java8:2.0.0'
 // Room
