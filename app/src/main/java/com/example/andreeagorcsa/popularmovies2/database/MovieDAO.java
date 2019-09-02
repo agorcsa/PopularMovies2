@@ -9,7 +9,7 @@ import androidx.room.Update;
 
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 // DAO =  Data Access Object
@@ -27,5 +27,5 @@ public interface MovieDAO {
     @Query("SELECT * FROM MOVIE_TABLE WHERE IS_FAVORITE = 1")
     // the object Movie ArrayList is observed by LiveData
     // all the changes of the DB will be notified by LiveData which sends the update to the interface
-    LiveData<ArrayList<Movie>> showFavoriteMovies();
+    LiveData<List<Movie>> showFavoriteMovies();
 }

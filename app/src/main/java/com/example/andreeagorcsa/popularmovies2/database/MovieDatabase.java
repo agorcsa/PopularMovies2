@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 
-@Database(entities = {MovieEntity.class}, version = 1)
+@Database(entities = {Movie.class}, version = 1)
 public abstract class MovieDatabase extends RoomDatabase {
 
     // creates an instance of the MovieDatabase, which be will transformed into a singleton
@@ -49,9 +49,10 @@ public abstract class MovieDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-           // introduce all the Movies here
-           // movieDAO.insert(new Movie(""));
+            // introduce all the Movies here
+            // movieDAO.insert(new Movie(""));
             return null;
         }
     }
+
 }

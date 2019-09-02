@@ -11,6 +11,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.adapters.MovieAdapter;
 import com.example.andreeagorcsa.popularmovies2.database.DatabaseHelper;
+import com.example.andreeagorcsa.popularmovies2.databinding.ActivityMainBinding;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
 
@@ -59,10 +62,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     private DatabaseHelper movieDb;
 
+    // data binding
+    ActivityMainBinding mBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
 
         ButterKnife.bind(this);
         // TO DO: check if it is correct and if you do not to create a real button

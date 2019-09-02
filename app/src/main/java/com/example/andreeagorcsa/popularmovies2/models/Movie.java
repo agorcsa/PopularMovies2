@@ -2,13 +2,16 @@ package com.example.andreeagorcsa.popularmovies2.models;
 
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
 
 import org.parceler.Parcel;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Entity(tableName = "MOVIE_TABLE")
+// at compile creates an SQLite table for this object
 
 @Parcel
 public class Movie implements Parcelable {
@@ -24,14 +27,24 @@ public class Movie implements Parcelable {
         }
     };
     // Declaration of the Movie variables
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    @ColumnInfo(name = "MOVIE_ID")
     public int movieId;
+    @ColumnInfo(name = "ORIGINAL_TITLE")
     public String originalTitle;
+    @ColumnInfo(name = "MOVIE_POSTER")
     public String moviePoster;
+    @ColumnInfo(name = "FINAL_URL")
     public String finalUrl;
     public String plotSynopsis;
+    @ColumnInfo(name = "USER_RATING")
     public double userRating;
+    @ColumnInfo(name = "POPULARITY")
     public double popularity;
+    @ColumnInfo(name = "RELEASE_DATE")
     public String releaseDate;
+    @ColumnInfo(name = "IS_FAVORITE")
     public boolean isFavorite;
 
     // Empty constructor for Parcel
@@ -85,6 +98,14 @@ public class Movie implements Parcelable {
     }
 
     // Getter and Setter methods for the Movie parameters
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public int getMovieId() {
         return movieId;
     }

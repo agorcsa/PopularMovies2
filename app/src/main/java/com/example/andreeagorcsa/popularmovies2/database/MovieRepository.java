@@ -7,13 +7,12 @@ import androidx.lifecycle.LiveData;
 
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieRepository {
 
     private MovieDAO movieDAO;
-    private LiveData<ArrayList<Movie>> favoriteMovies;
+    private LiveData<List<Movie>> favoriteMovies;
 
     // constructor
     // application is a subclass of context
@@ -35,7 +34,7 @@ public class MovieRepository {
         new DeleteMovieAsyncTask(movieDAO).execute(movie);
     }
 
-    public LiveData<ArrayList<Movie>> showFavoriteMovies() {
+    public LiveData<List<Movie>> showFavoriteMovies() {
         new QueryMovieAsyncTask(movieDAO).execute();
         return favoriteMovies;
     }
@@ -99,4 +98,5 @@ public class MovieRepository {
             return null;
         }
     }
+
 }
