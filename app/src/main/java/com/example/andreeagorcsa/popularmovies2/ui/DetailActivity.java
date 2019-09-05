@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -127,6 +128,20 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         }
     }
 
+    public void onPlayTrailer(View view){
+     Button trailerButton = findViewById(R.id.play_trailer_button);
+     view = trailerButton;
+        View finalView = view;
+        view.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             finalView.requestFocus();
+         }
+     });
+
+
+    }
+
     public void InsertData(){
         getMovieData();
         // TO DO: is isFavorite part of a movie that I will insert?
@@ -147,6 +162,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     public void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
 
     /**
      * runs the fetchReviewData(reviewsUrl) method at the background thread

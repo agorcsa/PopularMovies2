@@ -1,5 +1,6 @@
 package com.example.andreeagorcsa.popularmovies2.adapters;
 
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
 
     /**
      * Constructor for the MovieAdapter
+     *
      * @param itemClickHandler
      * @param mMovieList
      */
@@ -39,6 +41,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
 
     /**
      * Inflates the layout, and creates the ViewHolder object required from the MovieAdapter
+     *
      * @param parent
      * @param viewType
      * @return
@@ -52,6 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
 
     /**
      * updates the contents of the ItemView to reflect the movie in the given position.
+     *
      * @param movieHolder
      * @param position
      */
@@ -71,7 +75,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
     }
 
     /**
-     *
      * @return
      */
     @Override

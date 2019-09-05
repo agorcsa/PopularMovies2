@@ -29,6 +29,7 @@
                 android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:imageUrl="@{product.movie_poster}"
                 android:adjustViewBounds="@bool/adjustViewBounds"
                 android:contentDescription="@string/app_name" />
 
