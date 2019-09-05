@@ -5,8 +5,11 @@
 
    <data>
        <variable
-           name="movie"
-           type="com.example.andreeagorcsa.popularmovies2.models.Movie" />
+           name="movie_title"
+           type="String" />
+       <variable
+           name="movie_poster"
+           type="String" />
    </data>
 
     <androidx.cardview.widget.CardView
@@ -48,6 +51,7 @@
                         android:gravity="left"
                         android:lines="3"
                         android:minLines="1"
+                        android:text="@{movie_title}"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="15sp"/>
 

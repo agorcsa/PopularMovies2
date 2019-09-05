@@ -4,6 +4,7 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
@@ -47,7 +48,7 @@ public class Movie implements Parcelable {
     @ColumnInfo(name = "IS_FAVORITE")
     public boolean isFavorite;
 
-    // Empty constructor for Parcel
+    @Ignore
     public Movie() {
     }
 
@@ -73,6 +74,7 @@ public class Movie implements Parcelable {
     }
 
     // reads from parcel
+    @Ignore
     protected Movie(android.os.Parcel in) {
         movieId = in.readInt();
         originalTitle = in.readString();

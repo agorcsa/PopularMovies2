@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
 
+
         ButterKnife.bind(this);
         // TO DO: check if it is correct and if you do not to create a real button
 

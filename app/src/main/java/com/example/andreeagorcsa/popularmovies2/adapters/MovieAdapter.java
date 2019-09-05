@@ -1,5 +1,7 @@
 package com.example.andreeagorcsa.popularmovies2.adapters;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.andreeagorcsa.popularmovies2.BR;
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.squareup.picasso.Picasso;
@@ -42,8 +45,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
      */
     @Override
     public MovieItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
-        return new MovieItemViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        ViewDataBinding binding = DataBindingUtil.inflate(inflater, R.layout.movie_item, parent, false);
+        return new MovieItemViewHolder(binding);
     }
 
     /**
@@ -62,7 +66,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
                 .placeholder(R.drawable.cinema_poster)
                 .into(movieHolder.mMoviePosterImageView);
 
-        movieHolder.mMovieTitleTextView.setText(movieTitle);
+        //movieHolder.mMovieTitleTextView.setText(movieTitle);
+        movieHolder.bind(movieTitle);
     }
 
     /**
@@ -93,16 +98,25 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
     }
 
     public class MovieItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        ViewDataBinding binding;
+
         @BindView(R.id.movie_poster)
         ImageView mMoviePosterImageView;
         @BindView(R.id.movie_title)
         TextView mMovieTitleTextView;
 
-
-        public MovieItemViewHolder(View itemView) {
-            super(itemView);
+        public MovieItemViewHolder(ViewDataBinding dataBinding) {
+            super(dataBinding.getRoot());
+            this.binding = dataBinding;
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+        }
+
+        public void bind(String movieTitle) {
+            this.binding.setVariable(BR.movie_title, movieTitle);
+            this.binding.executePendingBindings();
+
         }
 
         @Override
