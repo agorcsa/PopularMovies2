@@ -5,11 +5,8 @@
 
    <data>
        <variable
-           name="movie_title"
-           type="String" />
-       <variable
-           name="movie_poster"
-           type="String" />
+           name="movie"
+           type="com.example.andreeagorcsa.popularmovies2.models.Movie" />
    </data>
 
     <androidx.cardview.widget.CardView
@@ -29,8 +26,8 @@
                 android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:imageUrl="@{product.movie_poster}"
                 android:adjustViewBounds="@bool/adjustViewBounds"
+                app:imageUrl="@{movie.moviePoster}"
                 android:contentDescription="@string/app_name" />
 
             <LinearLayout
@@ -52,7 +49,7 @@
                         android:gravity="left"
                         android:lines="3"
                         android:minLines="1"
-                        android:text="@{movie_title}"
+                        android:text="@{movie.originalTitle}"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="15sp"/>
 

@@ -62,16 +62,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
     @Override
     public void onBindViewHolder(MovieItemViewHolder movieHolder, int position) {
         Movie currentMovie = mMovieList.get(position);
-        String moviePoster = currentMovie.getPosterPath();
-        String movieTitle = currentMovie.getOriginalTitle();
-
-        Picasso.get()
-                .load(moviePoster)
-                .placeholder(R.drawable.cinema_poster)
-                .into(movieHolder.mMoviePosterImageView);
-
-        //movieHolder.mMovieTitleTextView.setText(movieTitle);
-        movieHolder.bind(movieTitle);
+        movieHolder.bind(currentMovie);
     }
 
     /**
@@ -116,10 +107,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
             itemView.setOnClickListener(this);
         }
 
-        public void bind(String movieTitle) {
-            this.binding.setVariable(BR.movie_title, movieTitle);
+        public void bind(Movie movie) {
+            this.binding.setVariable(BR.movie, movie);
             this.binding.executePendingBindings();
-
         }
 
         @Override
