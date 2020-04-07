@@ -10,7 +10,9 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 
 @Database(entities = {Movie.class}, version = 1, exportSchema = false)
-public class MovieRoomDatabase extends RoomDatabase {
+public abstract class MovieRoomDatabase extends RoomDatabase {
+
+    public abstract MovieDAO movieDAO();
 
 
     @NonNull

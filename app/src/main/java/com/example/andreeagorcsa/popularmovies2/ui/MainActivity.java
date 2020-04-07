@@ -230,23 +230,4 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             }
         }
     }
-
-    // TO DO: create a new AsyncTask for favorite movies
-    public class FavoriteAsyncTask extends AsyncTask<String, Void, List<Movie>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<Movie> doInBackground(String... strings) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(List<Movie> movies) {
-            super.onPostExecute(movies);
-        }
-    }
 }

@@ -136,22 +136,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     }
 
-    /*public void InsertData(){
-        getMovieData();
-        // TO DO: is isFavorite part of a movie that I will insert?
-        movieDb.insertData(mMovieId, mOriginalTitle, mMoviePoster, mFinalUrl, mPlotSynopsis, mUserRating, mPopularity, mReleaseDate);
-        showToast("Movie was added to favorites");
-    }
-
-    public void DeleteData() {
-        Integer deletedRows = movieDb.deleteData(String.valueOf(mMovieId));
-        if (deletedRows != 0) {
-            showToast("Movie was deleted from favorites");
-        } else {
-            showToast("Movie was not deleted from favorites ");
-        }
-    }*/
-
 
     public void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
