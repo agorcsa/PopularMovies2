@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -11,11 +12,12 @@ import com.example.andreeagorcsa.popularmovies2.models.Movie;
 
 import java.util.List;
 
-@Dao
 // DAO =  Data Access Object
+@Dao
 public interface MovieDAO {
 
-    @Insert
+    //  ignores adding a new movie, if it's exactly the same as one already in the list
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Movie movie);
 
     @Update
@@ -24,7 +26,11 @@ public interface MovieDAO {
     @Delete
     void delete(Movie movie);
 
-    @Query("SELECT * FROM MOVIE_TABLE WHERE IS_FAVORITE = 1")
+    @Query("DELETE FROM MOVIE_TABLE")
+    void deleteAll();
+
+    // queries the favorite movies
+    @Query("SELECT * FROM MOVIE_TABLE WHERE IS_FAVORITE = 1 ORDER BY MOVIE_ID")
     // the object Movie ArrayList is observed by LiveData
     // all the changes of the DB will be notified by LiveData which sends the update to the interface
     LiveData<List<Movie>> showFavoriteMovies();

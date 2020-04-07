@@ -6,8 +6,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.squareup.picasso.Picasso;
 
-//
-class BindingAdapters {
+public class BindingAdapters {
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {

@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.OverviewViewHolder;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerViewHolder;
-import com.example.andreeagorcsa.popularmovies2.database.DatabaseHelper;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.models.Review;
 import com.example.andreeagorcsa.popularmovies2.models.Trailer;
@@ -51,8 +50,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     private String mReleaseDate;
     private List<Review> mReviewList = new ArrayList<>();
     private List<Trailer> mTrailerList = new ArrayList<>();
-    // creates an instance of the DatabaseHelper
-    private DatabaseHelper movieDb;
 
 
     @Override
@@ -76,9 +73,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
         new ReviewAsyncTask().execute(JsonUtils.MOVIE_ID);
         new TrailerAsyncTask().execute(JsonUtils.MOVIE_ID);
-
-        // created a db by reading the constructor from DatabaseHelper class
-        movieDb = new DatabaseHelper(this);
     }
 
     private void buildComplexRecyclerView() {
@@ -118,12 +112,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
         if (mIsFavorite) {
             button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
-            DeleteData();
+            //DeleteData();
             mIsFavorite = false;
 
         } else {
             button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
-            InsertData();
+           // InsertData();
             mIsFavorite = true;
         }
     }
@@ -142,7 +136,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     }
 
-    public void InsertData(){
+    /*public void InsertData(){
         getMovieData();
         // TO DO: is isFavorite part of a movie that I will insert?
         movieDb.insertData(mMovieId, mOriginalTitle, mMoviePoster, mFinalUrl, mPlotSynopsis, mUserRating, mPopularity, mReleaseDate);
@@ -156,7 +150,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         } else {
             showToast("Movie was not deleted from favorites ");
         }
-    }
+    }*/
 
 
     public void showToast(String message) {

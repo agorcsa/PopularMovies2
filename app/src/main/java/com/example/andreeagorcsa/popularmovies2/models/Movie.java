@@ -2,6 +2,7 @@ package com.example.andreeagorcsa.popularmovies2.models;
 
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -12,7 +13,7 @@ import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
 import org.parceler.Parcel;
 
 @Entity(tableName = "MOVIE_TABLE")
-// at compile creates an SQLite table for this object
+// at compile Room creates an SQLite table for this object
 
 @Parcel
 public class Movie implements Parcelable {
@@ -28,23 +29,35 @@ public class Movie implements Parcelable {
         }
     };
     // Declaration of the Movie variables
+    @NonNull
     @PrimaryKey(autoGenerate = true)
     public int id;
+
+    // specifies the name of the column in the table
     @ColumnInfo(name = "MOVIE_ID")
     public int movieId;
+
     @ColumnInfo(name = "ORIGINAL_TITLE")
     public String originalTitle;
+
     @ColumnInfo(name = "MOVIE_POSTER")
     public String moviePoster;
+
     @ColumnInfo(name = "FINAL_URL")
     public String finalUrl;
+
+    @ColumnInfo(name = "PLOT_SYNOPSIS")
     public String plotSynopsis;
+
     @ColumnInfo(name = "USER_RATING")
     public double userRating;
+
     @ColumnInfo(name = "POPULARITY")
     public double popularity;
+
     @ColumnInfo(name = "RELEASE_DATE")
     public String releaseDate;
+
     @ColumnInfo(name = "IS_FAVORITE")
     public boolean isFavorite;
 

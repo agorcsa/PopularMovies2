@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.adapters.MovieAdapter;
-import com.example.andreeagorcsa.popularmovies2.database.DatabaseHelper;
 import com.example.andreeagorcsa.popularmovies2.databinding.ActivityMainBinding;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
@@ -60,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private List<Movie> mMovieList;
     private Toolbar mToolbar;
 
-    private DatabaseHelper movieDb;
 
     // data binding
     ActivityMainBinding mBinding;
@@ -69,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-
 
         ButterKnife.bind(this);
         // TO DO: check if it is correct and if you do not to create a real button
@@ -92,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             sortType = savedInstanceState.getString(SORT_TYPE);
             //yourSpinner.setSelection(savedInstanceState.getInt("yourSpinner", 0));
         }
-
-        movieDb = new DatabaseHelper(this);
     }
 
     @Override
@@ -186,29 +180,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         return true;
     }
 
-    // TO DO: need to decide where to call this method
-    public void extractFavoriteMovies() {
-        Cursor cursor = movieDb.getFavoriteMovies();
-        if (cursor.getCount() == 0) {
-            showMessage("Favorite Movies", "No favorite movies so far");
-            return;
-        } else {
-            StringBuffer buffer = new StringBuffer();
-            while (cursor.moveToNext()) {
-                buffer.append("ID: " + cursor.getInt(0) + "\n");
-                buffer.append("MOVIE_ID: " + cursor.getInt(1) + "\n");
-                buffer.append("ORIGINAL_TITLE: " + cursor.getInt(2) + "\n");
-                buffer.append("POSTER: " + cursor.getInt(3) + "\n");
-                buffer.append("URL: " + cursor.getInt(4) + "\n");
-                buffer.append("PLOT_SYNOPSIS: " + cursor.getInt(5) + "\n");
-                buffer.append("USER_RATING: " + cursor.getInt(6) + "\n");
-                buffer.append("POPULARITY: " + cursor.getInt(7) + "\n");
-                buffer.append("RELEASE_DATE: " + cursor.getInt(8) + "\n\n");
-            }
-
-            showMessage("Favorite Movies", buffer.toString());
-        }
-    }
 
     // TO DO: displays the favorite movies in the MainActivity
     // TO DO: need to decide where to call this method
