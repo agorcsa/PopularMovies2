@@ -18,6 +18,7 @@ public interface MovieDAO {
 
     //  ignores adding a new movie, if it's exactly the same as one already in the list
     @Insert(onConflict = OnConflictStrategy.IGNORE)
+
     void insert(Movie movie);
 
     @Update
@@ -26,12 +27,16 @@ public interface MovieDAO {
     @Delete
     void delete(Movie movie);
 
-    @Query("DELETE FROM MOVIE_TABLE")
-    void deleteAll();
-
     // queries the favorite movies
     @Query("SELECT * FROM MOVIE_TABLE WHERE IS_FAVORITE = 1 ORDER BY MOVIE_ID")
     // the object Movie ArrayList is observed by LiveData
     // all the changes of the DB will be notified by LiveData which sends the update to the interface
     LiveData<List<Movie>> showFavoriteMovies();
+
+    // queries the favorite movies
+    @Query("SELECT * FROM MOVIE_TABLE ORDER BY MOVIE_ID")
+    // the object Movie ArrayList is observed by LiveData
+    // all the changes of the DB will be notified by LiveData which sends the update to the interface
+    LiveData<List<Movie>> getFavoriteMovies();
+
 }

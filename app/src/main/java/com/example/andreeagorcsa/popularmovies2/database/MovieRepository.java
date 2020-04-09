@@ -12,6 +12,7 @@ import java.util.List;
 public class MovieRepository {
 
     private MovieDAO movieDAO;
+
     private LiveData<List<Movie>> favoriteMovies;
 
     // constructor
@@ -22,81 +23,25 @@ public class MovieRepository {
         favoriteMovies = movieDAO.showFavoriteMovies();
     }
 
-    public void insert(Movie movie) {
-        new InsertMovieAsyncTask(movieDAO).execute(movie);
-    }
-
-    public void update(Movie movie) {
-        new UpdateMovieAsyncTask(movieDAO).execute(movie);
-    }
-
-    public void delete(Movie movie) {
-        new DeleteMovieAsyncTask(movieDAO).execute(movie);
-    }
-
-    public LiveData<List<Movie>> showFavoriteMovies() {
-        new QueryMovieAsyncTask(movieDAO).execute();
+    public LiveData<List<Movie>> getFavoriteMovies() {
         return favoriteMovies;
     }
 
-    private static class InsertMovieAsyncTask extends AsyncTask<Movie, Void, Void> {
-
-        private MovieDAO movieDAO;
-
-        private InsertMovieAsyncTask(MovieDAO movieDAO) {
-            this.movieDAO = movieDAO;
-        }
-
-        @Override
-        protected Void doInBackground(Movie... movies) {
-            movieDAO.insert(movies[0]);
-            return null;
-        }
+    public void insert(Movie movie) {
+        MovieRoomDatabase.databaseWriteExecutor.execute(() -> {
+            movieDAO.insert(movie);
+        });
     }
 
-    private static class UpdateMovieAsyncTask extends AsyncTask<Movie, Void, Void> {
-
-        private MovieDAO movieDAO;
-
-        private UpdateMovieAsyncTask(MovieDAO movieDAO) {
-            this.movieDAO = movieDAO;
-        }
-
-        @Override
-        protected Void doInBackground(Movie... movies) {
-            movieDAO.update(movies[0]);
-            return null;
-        }
+    public void update(Movie movie) {
+        MovieRoomDatabase.databaseWriteExecutor.execute(() -> {
+            movieDAO.update(movie);
+        });
     }
 
-    private static class DeleteMovieAsyncTask extends AsyncTask<Movie, Void, Void> {
-
-        private MovieDAO movieDAO;
-
-        private DeleteMovieAsyncTask(MovieDAO movieDAO) {
-            this.movieDAO = movieDAO;
-        }
-
-        @Override
-        protected Void doInBackground(Movie... movies) {
-            movieDAO.delete(movies[0]);
-            return null;
-        }
+    public void delete(Movie movie) {
+        MovieRoomDatabase.databaseWriteExecutor.execute(() -> {
+            movieDAO.delete(movie);
+        });
     }
-
-    private static class QueryMovieAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        private MovieDAO movieDAO;
-
-        private QueryMovieAsyncTask(MovieDAO movieDAO) {
-            this.movieDAO = movieDAO;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            movieDAO.showFavoriteMovies();
-            return null;
-        }
-    }
-
 }

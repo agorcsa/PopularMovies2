@@ -2,17 +2,17 @@ package com.example.andreeagorcsa.popularmovies2.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -31,6 +31,7 @@ import com.example.andreeagorcsa.popularmovies2.adapters.MovieAdapter;
 import com.example.andreeagorcsa.popularmovies2.databinding.ActivityMainBinding;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.utils.JsonUtils;
+import com.example.andreeagorcsa.popularmovies2.viewmodel.MainViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,32 +49,39 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     public static final String MOST_POPULAR = "most popular";
     public static final String IS_FAVORITE = "favorite";
     public static final String SORT_TYPE = "sort_type";
-    public static final String SPINNER_ITEM = "spinner_item";
+
+    private String sortType = "popular";
+    private Toolbar mToolbar;
 
     @BindView(R.id.movie_recycler_view)
     RecyclerView mMovieRecyclerView;
     // by default the value of sortType is "popular"
-    private String sortType = "popular";
     private MovieAdapter mMovieAdapter;
     private GridLayoutManager mGridLayoutManager;
     private List<Movie> mMovieList;
-    private Toolbar mToolbar;
 
-
-    // data binding
+    // DataBinding
     ActivityMainBinding mBinding;
+
+    // ViewModel
+    private MainViewModel movieViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        movieViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        movieViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+                mMovieAdapter.setMovieList(movies);
+            }
+        });
+
+
         ButterKnife.bind(this);
-        // TO DO: check if it is correct and if you do not to create a real button
 
-        //getSupportActionBar().setTitle("Popular Movies");
-
-        // Toolbar settings
         mToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mToolbar);
         mToolbar.setTitle("Popular Movies");
@@ -83,10 +91,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
         internetConnectionCheck();
 
-
         if (savedInstanceState != null) {
             sortType = savedInstanceState.getString(SORT_TYPE);
-            //yourSpinner.setSelection(savedInstanceState.getInt("yourSpinner", 0));
         }
     }
 
@@ -135,8 +141,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
-
-        // spinner item part
         MenuItem spinnerItem = menu.findItem(R.id.action_change_movie);
 
         final Spinner spinner = (Spinner) spinnerItem.getActionView();
@@ -165,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                 } else if ((parent.getItemAtPosition(position).equals(IS_FAVORITE))) {
                     Toast.makeText(getApplicationContext(), spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
                     sortType = "favorite";
-                    // new MovieAsyncTask().execute(sortType);
+                    new MovieAsyncTask().execute(sortType);
                 } else {
                     // no toast
                 }
@@ -178,20 +182,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         });
 
         return true;
-    }
-
-
-    // TO DO: displays the favorite movies in the MainActivity
-    // TO DO: need to decide where to call this method
-    public void showFavoriteMovies() {
-
-    }
-
-    public void showMessage(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
     }
 
     /**

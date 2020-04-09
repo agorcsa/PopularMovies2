@@ -95,15 +95,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
 
         ViewDataBinding binding;
 
-        //@BindView(R.id.movie_poster)
-        //ImageView mMoviePosterImageView;
-        //@BindView(R.id.movie_title)
-        //TextView mMovieTitleTextView;
-
         public MovieItemViewHolder(ViewDataBinding dataBinding) {
             super(dataBinding.getRoot());
             this.binding = dataBinding;
-            //ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
