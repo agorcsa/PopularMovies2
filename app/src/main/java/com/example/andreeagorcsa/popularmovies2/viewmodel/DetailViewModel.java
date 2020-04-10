@@ -1,11 +1,10 @@
 package com.example.andreeagorcsa.popularmovies2.viewmodel;
 
 import android.app.Application;
-import android.view.View;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.andreeagorcsa.popularmovies2.database.MovieRepository;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
@@ -18,11 +17,19 @@ public class DetailViewModel extends AndroidViewModel {
 
     private LiveData<List<Movie>> mFavoriteMovies;
 
+    private Movie movie;
+
+    private MutableLiveData<Boolean> isFavoriteMutable = new MutableLiveData<>();
+
     // constructor
-    public DetailViewModel(Application application) {
+    public DetailViewModel(Application application, Movie movie) {
         super(application);
         mRepository = new MovieRepository(application);
         mFavoriteMovies = mRepository.getFavoriteMovies();
+        this.movie = movie;
+
+        mRepository.isMovieFavorite(movie);
+        isFavoriteMutable.setValue(mRepository.isFavourite);
     }
 
     public LiveData<List<Movie>> getFavoriteMovies() {
@@ -39,5 +46,13 @@ public class DetailViewModel extends AndroidViewModel {
 
     public void delete(Movie movie) {
         mRepository.delete(movie);
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

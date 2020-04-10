@@ -39,4 +39,6 @@ public interface MovieDAO {
     // all the changes of the DB will be notified by LiveData which sends the update to the interface
     LiveData<List<Movie>> getFavoriteMovies();
 
+    @Query("SELECT * FROM MOVIE_TABLE WHERE MOVIE_ID = :id")
+    Movie selectMovie(String id);
 }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.OverviewViewHolder;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerViewHolder;
+import com.example.andreeagorcsa.popularmovies2.factory.DetailViewModelFactory;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.models.Review;
 import com.example.andreeagorcsa.popularmovies2.models.Trailer;
@@ -67,7 +68,11 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
         ButterKnife.bind(this);
 
-        detailViewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
+        movie = getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT);
+
+        detailViewModel = ViewModelProviders.of(this,
+                new DetailViewModelFactory(getApplication(), movie))
+                .get(DetailViewModel.class);
 
         buildComplexRecyclerView();
 
