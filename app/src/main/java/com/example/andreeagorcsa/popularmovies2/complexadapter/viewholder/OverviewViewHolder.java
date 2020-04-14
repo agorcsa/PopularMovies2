@@ -36,7 +36,7 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
     public @BindView(R.id.score_detail)
     TextView mScore;
 
-    public @BindView(R.id.plus_button)
+    public @BindView(R.id.favorite_button)
     Button mFavoriteButton;
 
     Movie movie;

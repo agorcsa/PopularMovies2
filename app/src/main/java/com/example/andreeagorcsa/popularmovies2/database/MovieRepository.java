@@ -20,8 +20,7 @@ public class MovieRepository {
 
     private MovieRoomDatabase movieRoomDatabase;
 
-    public LiveData<Boolean> isFavourite = new LiveData<Boolean>() {
-    };
+    public MutableLiveData<Boolean> isFavourite = new MutableLiveData<>();
 
     // constructor
     // application is a subclass of context
@@ -54,13 +53,14 @@ public class MovieRepository {
     }
 
     public void isMovieFavorite(Movie movie) {
-
         int id = movie.getId();
-
         MovieRoomDatabase.databaseWriteExecutor.execute(() -> {
-            movieDAO.selectMovie(String.valueOf(id));
-            isFavourite.setValue(true);
-
+            Movie favMovie = movieDAO.selectMovie(String.valueOf(id));
+            if (favMovie != null) {
+                isFavourite.setValue(true);
+            } else {
+                isFavourite.postValue(false);
+            }
         });
     }
 }

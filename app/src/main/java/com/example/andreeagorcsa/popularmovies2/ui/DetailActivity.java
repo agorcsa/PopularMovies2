@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.OverviewViewHolder;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerViewHolder;
+import com.example.andreeagorcsa.popularmovies2.databinding.ActivityDetailBinding;
 import com.example.andreeagorcsa.popularmovies2.factory.DetailViewModelFactory;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.models.Review;
@@ -38,10 +42,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     public static final String VIDEO_URI = "http://www.youtube.com/watch?v=";
 
-    public boolean mIsFavorite;
-
     @BindView(R.id.complex_recycler_view)
     RecyclerView mComplexRecyclerView;
+
+    @Nullable
+    @BindView(R.id.favorite_button)
+    Button favoriteButton;
 
     private ComplexAdapter mComplexAdapter;
 
@@ -56,30 +62,65 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     private double mPopularity;
     private String mReleaseDate;
 
+    private Boolean globalBoolean;
+
     private List<Review> mReviewList = new ArrayList<>();
     private List<Trailer> mTrailerList = new ArrayList<>();
 
     private DetailViewModel detailViewModel;
 
+    private ActivityDetailBinding detailBinding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        //setContentView(R.layout.activity_detail);
+        detailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         ButterKnife.bind(this);
 
-        movie = getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT);
+        getMovieIntent();
+        buildComplexRecyclerView();
+        getMovieData();
 
         detailViewModel = ViewModelProviders.of(this,
                 new DetailViewModelFactory(getApplication(), movie))
                 .get(DetailViewModel.class);
 
-        buildComplexRecyclerView();
 
-        getMovieData();
+        detailBinding.setViewModel(detailViewModel);
+        detailBinding.setLifecycleOwner(this);
+
+        readIsFavorite();
 
         new ReviewAsyncTask().execute(JsonUtils.MOVIE_ID);
         new TrailerAsyncTask().execute(JsonUtils.MOVIE_ID);
+    }
+
+    private void readIsFavorite() {
+
+
+        final Observer<Boolean> isFavObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean.equals(true)) {
+                    if (favoriteButton != null) {
+                        favoriteButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
+                        Toast.makeText(getApplicationContext(), "Add to fav", Toast.LENGTH_SHORT).show();
+                    }
+                    globalBoolean = true;
+                } else {
+                    if (favoriteButton != null) {
+                        favoriteButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
+                        Toast.makeText(getApplicationContext(), "Removed from fav", Toast.LENGTH_SHORT).show();
+                    }
+                    globalBoolean = false;
+                }
+            }
+        };
+
+
+        detailViewModel.isFavoriteVM.observe(this, isFavObserver);
     }
 
     private void getMovieIntent() {
@@ -95,7 +136,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     }
 
     private void getMovieData() {
-        getMovieIntent();
 
         mComplexAdapter.updateMovie(movie);
 
@@ -107,7 +147,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         mPopularity = movie.getPopularity();
         mUserRating = movie.getVoteAverage();
         mReleaseDate = movie.getReleaseDate();
-        mIsFavorite = movie.getIsFavorite();
     }
 
     @Override
@@ -115,23 +154,20 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         String trailerKey = trailer.getKey();
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_URI + trailerKey)));
     }
-
     @Override
     public void onFavoriteClick(Movie movie, Button button) {
         Log.i(LOG_TAG, "+ capsule button was clicked");
 
-        if (mIsFavorite) {
-            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
-            detailViewModel.delete(movie);
-            Toast.makeText(this, "The movies was deleted from favorite", Toast.LENGTH_SHORT).show();
-            mIsFavorite = false;
-
-        } else {
-            button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
-            detailViewModel.insert(movie);
-            Toast.makeText(this, "The movies was added as favorite", Toast.LENGTH_SHORT).show();
-            mIsFavorite = true;
-        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (globalBoolean.equals(true)) {
+                    detailViewModel.delete(movie);
+                } else {
+                    detailViewModel.insert(movie);
+                }
+            }
+        });
     }
 
     public void onPlayTrailer(View view){
@@ -207,16 +243,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
                 mComplexAdapter.updateTrailerList(mTrailerList);
             } else {
                 Toast.makeText(DetailActivity.this, "Your trailer list is empty", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        public void isMovieFavorite() {
-            movie = getIntent().getParcelableExtra(MainActivity.MOVIE_OBJECT);
-            mMovieId = movie.getMovieId();
-            if (String.valueOf(mMovieId).isEmpty()) {
-                mIsFavorite = false;
-            } else {
-                mIsFavorite = true;
             }
         }
     }
