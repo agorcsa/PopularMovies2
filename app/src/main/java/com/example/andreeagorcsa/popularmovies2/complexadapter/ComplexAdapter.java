@@ -38,6 +38,8 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<Review> mReviewList = new ArrayList<>();
     private List<Trailer> mTrailerList = new ArrayList<>();
 
+    private boolean isFavourite;
+
     public ComplexAdapter(OverviewViewHolder.FavoriteClickHandler favoriteClickHandler, TrailerViewHolder.ItemClickHandler itemClickHandler, Movie movie, List<Review> reviews, List<Trailer> trailers) {
         mMovie = movie;
         mReviewList = reviews;
@@ -111,6 +113,17 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         String releaseDate = mMovie.getReleaseDate();
         vh1.mMovieDate.setText(releaseDate);
         vh1.setFavoriteClickHandler(favoriteClickHandler,mMovie);
+        setFavoriteButtonEnabled(vh1);
+    }
+
+    public void setFavoriteButtonEnabled(OverviewViewHolder overviewViewHolder) {
+        if (isFavourite) {
+            overviewViewHolder.mFavoriteButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
+            isFavourite = true;
+        } else {
+            overviewViewHolder.mFavoriteButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
+            isFavourite = false;
+        }
     }
 
     private void configureReviewViewHolder(ReviewViewHolder vh2, int position) {
@@ -152,7 +165,6 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
@@ -164,4 +176,9 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public void setFavoriteStatus(boolean favourite) {
+        // This is a global variable in the adapter
+        this.isFavourite = favourite;
+        notifyDataSetChanged();
+    }
 }

@@ -37,6 +37,7 @@ public class MovieRepository {
     public void insert(Movie movie) {
         MovieRoomDatabase.databaseWriteExecutor.execute(() -> {
             movieDAO.insert(movie);
+            isFavourite.postValue(true);
         });
     }
 
@@ -49,6 +50,7 @@ public class MovieRepository {
     public void delete(Movie movie) {
         MovieRoomDatabase.databaseWriteExecutor.execute(() -> {
             movieDAO.delete(movie);
+            isFavourite.postValue(false);
         });
     }
 

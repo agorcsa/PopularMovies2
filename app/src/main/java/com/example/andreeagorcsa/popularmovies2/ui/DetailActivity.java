@@ -99,26 +99,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     private void readIsFavorite() {
 
-
         final Observer<Boolean> isFavObserver = new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                if (aBoolean.equals(true)) {
-                    if (favoriteButton != null) {
-                        favoriteButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);
-                        Toast.makeText(getApplicationContext(), "Add to fav", Toast.LENGTH_SHORT).show();
-                    }
-                    globalBoolean = true;
-                } else {
-                    if (favoriteButton != null) {
-                        favoriteButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add, 0, 0, 0);
-                        Toast.makeText(getApplicationContext(), "Removed from fav", Toast.LENGTH_SHORT).show();
-                    }
-                    globalBoolean = false;
-                }
+                mComplexAdapter.setFavoriteStatus(aBoolean);
             }
         };
-
 
         detailViewModel.isFavoriteVM.observe(this, isFavObserver);
     }
@@ -155,13 +141,13 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_URI + trailerKey)));
     }
     @Override
-    public void onFavoriteClick(Movie movie, Button button) {
+    public void onFavoriteClick(Movie movie, Button button, boolean isFavourite) {
         Log.i(LOG_TAG, "+ capsule button was clicked");
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (globalBoolean.equals(true)) {
+                if (isFavourite) {
                     detailViewModel.delete(movie);
                 } else {
                     detailViewModel.insert(movie);

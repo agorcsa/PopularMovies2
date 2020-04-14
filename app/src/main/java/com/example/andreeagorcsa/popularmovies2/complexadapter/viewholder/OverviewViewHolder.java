@@ -43,6 +43,8 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
 
     private FavoriteClickHandler favoriteClickHandler;
 
+    private boolean isFavourite;
+
     public OverviewViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -55,10 +57,10 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View v) {
-        favoriteClickHandler.onFavoriteClick(movie, mFavoriteButton);
+        favoriteClickHandler.onFavoriteClick(movie, mFavoriteButton, isFavourite);
     }
 
     public interface FavoriteClickHandler {
-        void onFavoriteClick(Movie movie, Button button);
+        void onFavoriteClick(Movie movie, Button button, boolean isFavourite);
     }
 }
