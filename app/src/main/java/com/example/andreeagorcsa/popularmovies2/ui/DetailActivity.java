@@ -140,18 +140,14 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         String trailerKey = trailer.getKey();
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_URI + trailerKey)));
     }
-    @Override
-    public void onFavoriteClick(Movie movie, Button button, boolean isFavourite) {
-        Log.i(LOG_TAG, "+ capsule button was clicked");
 
+    @Override
+    public void onFavoriteClick(Movie movie, Button button) {
+        Log.i(LOG_TAG, "+ capsule button was clicked");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isFavourite) {
-                    detailViewModel.delete(movie);
-                } else {
-                    detailViewModel.insert(movie);
-                }
+                detailViewModel.toggleFavoriteButton(movie);
             }
         });
     }

@@ -29,7 +29,6 @@ public class Movie implements Parcelable {
         }
     };
     // Declaration of the Movie variables
-    @NonNull
     @PrimaryKey(autoGenerate = true)
     public int id;
 

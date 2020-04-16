@@ -55,15 +55,23 @@ public class MovieRepository {
     }
 
     public void isMovieFavorite(Movie movie) {
-        int id = movie.getId();
+        int movieId = movie.getMovieId();
         MovieRoomDatabase.databaseWriteExecutor.execute(() -> {
-            Movie favMovie = movieDAO.selectMovie(String.valueOf(id));
+            Movie favMovie = movieDAO.selectMovie(String.valueOf(movieId));
             if (favMovie != null) {
-                isFavourite.setValue(true);
+                isFavourite.postValue(true);
             } else {
                 isFavourite.postValue(false);
             }
         });
+    }
+
+    public void toggleFavorite(Movie movie) {
+        if (isFavourite.getValue()!= null && isFavourite.getValue()) {
+            delete(movie);
+        } else {
+            insert(movie);
+        }
     }
 }
 

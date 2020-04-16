@@ -36,16 +36,12 @@ public class DetailViewModel extends AndroidViewModel {
         return mFavoriteMovies;
     }
 
-    public void insert(Movie movie) {
-        mRepository.insert(movie);
-    }
+   public void toggleFavoriteButton(Movie movie) {
+       mRepository.toggleFavorite(this.movie);
+   }
 
     public void update(Movie movie) {
         mRepository.update(movie);
-    }
-
-    public void delete(Movie movie) {
-        mRepository.delete(movie);
     }
 
     public Movie getMovie() {

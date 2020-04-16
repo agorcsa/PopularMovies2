@@ -223,7 +223,7 @@ public class JsonUtils {
             for (int i = 0; i < resultsArray.length(); i++) {
                 JSONObject movieObject = resultsArray.optJSONObject(i);
 
-                int id = movieObject.optInt(MOVIE_ID);
+                int movieId = movieObject.optInt(MOVIE_ID);
 
                 String originalTitle = movieObject.optString(ORIGINAL_TITLE);
 
@@ -242,7 +242,7 @@ public class JsonUtils {
                 // TO DO: not sure is it is correct
                 boolean isFavorite = false;
 
-                Movie movie = new Movie(id, originalTitle, moviePoster, overview, voteAverage, popularity, releaseDate, isFavorite);
+                Movie movie = new Movie(movieId, originalTitle, moviePoster, overview, voteAverage, popularity, releaseDate, isFavorite);
                 movieList.add(movie);
 
             }

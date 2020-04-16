@@ -57,10 +57,9 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View v) {
-        favoriteClickHandler.onFavoriteClick(movie, mFavoriteButton, isFavourite);
+        favoriteClickHandler.onFavoriteClick(movie, mFavoriteButton);
     }
-
     public interface FavoriteClickHandler {
-        void onFavoriteClick(Movie movie, Button button, boolean isFavourite);
+        void onFavoriteClick(Movie movie, Button button);
     }
 }
