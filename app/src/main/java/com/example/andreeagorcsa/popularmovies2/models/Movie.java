@@ -28,11 +28,9 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
-    // Declaration of the Movie variables
-    @PrimaryKey(autoGenerate = true)
-    public int id;
 
     // specifies the name of the column in the table
+    @PrimaryKey
     @ColumnInfo(name = "MOVIE_ID")
     public int movieId;
 
@@ -112,14 +110,6 @@ public class Movie implements Parcelable {
     }
 
     // Getter and Setter methods for the Movie parameters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
     public int getMovieId() {
         return movieId;
     }
