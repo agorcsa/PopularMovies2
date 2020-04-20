@@ -3,6 +3,7 @@ package com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
+import com.example.andreeagorcsa.popularmovies2.models.Trailer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,9 +26,6 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
     public @BindView(R.id.movie_date_detail)
     TextView mMovieDate;
 
-    public @BindView(R.id.play_trailer_button)
-    Button mPlayTrailer;
-
     public @BindView(R.id.movie_poster_detail)
     ImageView mMoviePoster;
 
@@ -39,16 +38,31 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
     public @BindView(R.id.favorite_button)
     Button mFavoriteButton;
 
+    public @BindView(R.id.play_trailer_button)
+    Button mPlayTrailerButton;
+
     Movie movie;
 
     private FavoriteClickHandler favoriteClickHandler;
 
-    private boolean isFavourite;
+    private Trailer trailer;
 
     public OverviewViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        mFavoriteButton.setOnClickListener(this);
+        mFavoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(LOG_TAG, "Favorite button was clicked");
+            }
+        });
+
+        mPlayTrailerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(LOG_TAG, "PlayTrailer button was clicked");
+            }
+        });
     }
     public void setFavoriteClickHandler(FavoriteClickHandler favoriteClickHandler, Movie movie) {
         this.favoriteClickHandler = favoriteClickHandler;
@@ -58,8 +72,11 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View v) {
         favoriteClickHandler.onFavoriteClick(movie, mFavoriteButton);
+        favoriteClickHandler.onPlayTrailerClick(movie, trailer);
     }
+
     public interface FavoriteClickHandler {
         void onFavoriteClick(Movie movie, Button button);
+        void onPlayTrailerClick(Movie movie, Trailer trailer);
     }
 }

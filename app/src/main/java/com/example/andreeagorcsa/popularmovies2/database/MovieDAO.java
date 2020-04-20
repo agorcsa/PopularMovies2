@@ -27,16 +27,16 @@ public interface MovieDAO {
     void delete(Movie movie);
 
     // queries the favorite movies
-    @Query("SELECT * FROM MOVIE_TABLE WHERE IS_FAVORITE = 1 ORDER BY MOVIE_ID")
+    @Query("SELECT * FROM MOVIE_TABLE ORDER BY MOVIE_ID")
     // the object Movie ArrayList is observed by LiveData
     // all the changes of the DB will be notified by LiveData which sends the update to the interface
     LiveData<List<Movie>> showFavoriteMovies();
 
-    // queries the favorite movies
+    /*// queries the favorite movies
     @Query("SELECT * FROM MOVIE_TABLE ORDER BY MOVIE_ID")
     // the object Movie ArrayList is observed by LiveData
     // all the changes of the DB will be notified by LiveData which sends the update to the interface
-    LiveData<List<Movie>> getFavoriteMovies();
+    LiveData<List<Movie>> getFavoriteMovies();*/
 
     @Query("SELECT * FROM MOVIE_TABLE WHERE MOVIE_ID = :movieId")
     Movie selectMovie(String movieId);

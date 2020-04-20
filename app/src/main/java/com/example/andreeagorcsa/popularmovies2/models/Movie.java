@@ -56,9 +56,6 @@ public class Movie implements Parcelable {
     @ColumnInfo(name = "RELEASE_DATE")
     public String releaseDate;
 
-    @ColumnInfo(name = "IS_FAVORITE")
-    public boolean isFavorite;
-
     @Ignore
     public Movie() {
     }
@@ -71,9 +68,8 @@ public class Movie implements Parcelable {
      * @param plotSynopsis
      * @param userRating
      * @param releaseDate
-     * @param isFavorite
      */
-    public Movie(int movieId, String originalTitle, String moviePoster, String plotSynopsis, double userRating, double popularity, String releaseDate, boolean isFavorite) {
+    public Movie(int movieId, String originalTitle, String moviePoster, String plotSynopsis, double userRating, double popularity, String releaseDate) {
         this.movieId = movieId;
         this.originalTitle = originalTitle;
         this.moviePoster = moviePoster;
@@ -81,7 +77,6 @@ public class Movie implements Parcelable {
         this.userRating = userRating;
         this.popularity = popularity;
         this.releaseDate = releaseDate;
-        this.isFavorite = isFavorite;
     }
 
     // reads from parcel
@@ -95,8 +90,6 @@ public class Movie implements Parcelable {
         userRating = in.readDouble();
         popularity = in.readDouble();
         releaseDate = in.readString();
-        // we will read an int and transform it into a boolean
-        isFavorite = in.readInt() == 1;
     }
 
 
@@ -159,10 +152,6 @@ public class Movie implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
-    public boolean getIsFavorite() { return isFavorite;}
-
-    public void setIsFavorite(boolean favorite) { isFavorite = favorite;}
-
     public double getPopularity() { return popularity; }
 
     public void setPopularity(Double popularity) { this.popularity = popularity;}
@@ -184,10 +173,6 @@ public class Movie implements Parcelable {
         dest.writeDouble(userRating);
         dest.writeDouble(popularity);
         dest.writeString(releaseDate);
-        // we write a boolean and transform it into an int
-        // 1 -> true
-        // 0 -> false
-        dest.writeInt(isFavorite ? 1 : 0);
     }
 }
 

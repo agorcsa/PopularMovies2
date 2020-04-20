@@ -39,8 +39,8 @@ public class MovieRepository {
 
     public void insert(Movie movie) {
         MovieRoomDatabase.databaseWriteExecutor.execute(() -> {
-            movieDAO.insert(movie);
-            isFavourite.postValue(true);
+         movieDAO.insert(movie);
+         isFavourite.postValue(true);
         });
     }
 
