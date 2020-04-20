@@ -1,6 +1,7 @@
 package com.example.andreeagorcsa.popularmovies2.database;
 
 import android.app.Application;
+import android.util.Log;
 
 
 import androidx.lifecycle.LiveData;
@@ -21,6 +22,8 @@ public class MovieRepository {
     private MovieRoomDatabase movieRoomDatabase;
 
     public MutableLiveData<Boolean> isFavourite = new MutableLiveData<>();
+
+    private long longVar;
 
     // constructor
     // application is a subclass of context

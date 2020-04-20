@@ -49,8 +49,9 @@ public class Movie implements Parcelable {
     @ColumnInfo(name = "USER_RATING")
     public double userRating;
 
+    @NonNull
     @ColumnInfo(name = "POPULARITY")
-    public double popularity;
+    public Double popularity;
 
     @ColumnInfo(name = "RELEASE_DATE")
     public String releaseDate;
@@ -164,7 +165,7 @@ public class Movie implements Parcelable {
 
     public double getPopularity() { return popularity; }
 
-    public void setPopularity(double popularity) { this.popularity = popularity;}
+    public void setPopularity(Double popularity) { this.popularity = popularity;}
 
 
     @Override

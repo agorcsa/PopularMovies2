@@ -18,7 +18,6 @@ public interface MovieDAO {
 
     //  ignores adding a new movie, if it's exactly the same as one already in the list
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-
     void insert(Movie movie);
 
     @Update

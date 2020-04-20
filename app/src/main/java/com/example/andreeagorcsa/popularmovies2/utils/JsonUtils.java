@@ -235,7 +235,11 @@ public class JsonUtils {
 
                 double voteAverage = movieObject.optDouble(VOTE_AVERAGE);
 
-                double popularity = movieObject.optDouble(POPULARITY);
+                Double popularity = movieObject.optDouble(POPULARITY);
+
+                if (Double.isNaN(popularity)) {
+                    popularity = 0.0;
+                }
 
                 String releaseDate = movieObject.optString(RELEASE_DATE);
 

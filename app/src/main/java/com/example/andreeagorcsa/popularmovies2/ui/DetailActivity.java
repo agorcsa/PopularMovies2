@@ -144,16 +144,12 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     @Override
     public void onFavoriteClick(Movie movie, Button button) {
         Log.i(LOG_TAG, "+ capsule button was clicked");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                detailViewModel.toggleFavoriteButton(movie);
-            }
-        });
+        detailViewModel.toggleFavoriteButton(movie);
     }
 
     public void onPlayTrailer(View view){
      Button trailerButton = findViewById(R.id.play_trailer_button);
+        Toast.makeText(this, "Trailer", Toast.LENGTH_SHORT).show();
      view = trailerButton;
         View finalView = view;
         view.setOnClickListener(new View.OnClickListener() {

@@ -4,6 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBlack"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <FrameLayout
@@ -35,8 +36,9 @@
                     android:elevation="4dp"
                     android:paddingLeft="@dimen/layout_margin"
                     android:paddingRight="@dimen/layout_margin"
-                    android:text="Play Trailer"
                     android:textAllCaps="false"
+                    android:onClick="onPlayTrailer"
+                    android:text="Play Trailer"
                     android:textColor="@color/colorWhite"
                     android:textStyle="bold" />
 
@@ -53,6 +55,7 @@
                     android:paddingLeft="@dimen/layout_margin"
                     android:paddingRight="@dimen/layout_margin"
                     android:text="Favorite List"
+                    android:onClick="onPlayTrailer"
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
                     android:textStyle="bold" />
@@ -128,8 +131,9 @@
             android:layout_marginRight="@dimen/layout_margin"
             android:fontFamily="sans-serif"
             android:text="Synopsis"
+            android:textAllCaps="true"
             android:textColor="@color/colorWhite"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView

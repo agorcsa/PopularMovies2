@@ -31,15 +31,5 @@
                 android:text="TEXT"
                 android:textColor="@color/colorWhite" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/trailers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/layout_margin"
-            android:fontFamily="sans-serif"
-            android:text="Trailers"
-            android:textSize="16sp"
-            android:textStyle="bold" />
     </LinearLayout>
 </layout>
