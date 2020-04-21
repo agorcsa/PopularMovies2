@@ -3,6 +3,8 @@ package com.example.andreeagorcsa.popularmovies2.complexadapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,11 +93,11 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (viewHolder.getItemViewType()) {
             case OVERVIEW:
                 OverviewViewHolder vh1 = (OverviewViewHolder) viewHolder;
-                configureOverviewViewHolder(vh1, position);
+                configureOverviewViewHolder(vh1);
                 break;
             case REVIEW_TEXT:
                 ReviewTextViewHolder vh4 = (ReviewTextViewHolder) viewHolder;
-                configureReviewTextViewHolder(vh4, position - 1);
+                configureReviewTextViewHolder(vh4);
                 break;
             case REVIEW:
                 ReviewViewHolder vh2 = (ReviewViewHolder) viewHolder;
@@ -103,23 +105,26 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case TRAILER_TEXT:
                 TrailerTextViewHolder vh5 = (TrailerTextViewHolder) viewHolder;
-                configureTrailerTextViewHolder(vh5, position - 1);
+                configureTrailerTextViewHolder(vh5);
+                break;
             default:
                 TrailerViewHolder vh3 = (TrailerViewHolder) viewHolder;
                 configureTrailerViewHolder(vh3, position - 1 - mReviewList.size());
+                Log.i("mReviewList", String.valueOf(mReviewList.size()));
                 break;
+
         }
     }
 
-    private void configureReviewTextViewHolder(ReviewTextViewHolder vh4, int position) {
+    private void configureReviewTextViewHolder(ReviewTextViewHolder vh4) {
         vh4.mReviewLabel.setText("REVIEW");
     }
 
-    private void configureTrailerTextViewHolder(TrailerTextViewHolder vh5, int position) {
+    private void configureTrailerTextViewHolder(TrailerTextViewHolder vh5) {
         vh5.mTrailerLabel.setText("TRAILER");
     }
 
-    private void configureOverviewViewHolder(OverviewViewHolder vh1, int position) {
+    private void configureOverviewViewHolder(OverviewViewHolder vh1) {
 
         String originalTitle = mMovie.getOriginalTitle();
         vh1.mMovieTitle.setText(originalTitle);
@@ -194,12 +199,17 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
+
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return OVERVIEW;
-        } else if (position > 0 && position <= mReviewList.size()) {
+        } else if (position == 1) {
+            return REVIEW_TEXT;
+        } else if (position > 1 && position <= mReviewList.size()) {
             return REVIEW;
+        } else if (position == (mReviewList.size() - 1) + 2) {
+            return TRAILER_TEXT;
         } else {
             return TRAILER;
         }
