@@ -148,8 +148,15 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     }
 
     @Override
-    public void onPlayTrailerClick(Movie movie, Trailer trailer) {
+    public void onPlayTrailerClick() {
         Log.i(LOG_TAG, " Play Trailer button was clicked");
+
+        if (mTrailerList.size() > 0) {
+            String key = mTrailerList.get(0).getKey();
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_URI + key)));
+        } else {
+            throw new Error("No trailers in the list");
+        }
     }
 
     /**

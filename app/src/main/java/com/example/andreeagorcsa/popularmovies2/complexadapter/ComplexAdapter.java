@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.OverviewViewHolder;
+import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.ReviewTextViewHolder;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.ReviewViewHolder;
+import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerTextViewHolder;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerViewHolder;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.models.Review;
@@ -28,6 +30,9 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int OVERVIEW = 0;
     private final int REVIEW = 1;
     private final int TRAILER = 2;
+    // inflates the
+    private final int REVIEW_TEXT = 3;
+    private final int TRAILER_TEXT = 4;
 
     TrailerViewHolder.ItemClickHandler itemClickHandler;
 
@@ -63,10 +68,19 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 View v2 = inflater.inflate(R.layout.review_item, viewGroup, false);
                 viewHolder = new ReviewViewHolder(v2);
                 break;
-            default:
+            case TRAILER:
                 View v3 = inflater.inflate(R.layout.trailer_item, viewGroup, false);
                 viewHolder = new TrailerViewHolder(v3);
                 break;
+            case REVIEW_TEXT:
+                View v4 = inflater.inflate(R.layout.review_text_item, viewGroup, false);
+                viewHolder = new ReviewTextViewHolder(v4);
+                break;
+            default:
+                View v5 = inflater.inflate(R.layout.trailer_text_item, viewGroup, false);
+                viewHolder = new TrailerTextViewHolder(v5);
+                break;
+
         }
         return viewHolder;
     }
@@ -79,15 +93,30 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 OverviewViewHolder vh1 = (OverviewViewHolder) viewHolder;
                 configureOverviewViewHolder(vh1, position);
                 break;
+            case REVIEW_TEXT:
+                ReviewTextViewHolder vh4 = (ReviewTextViewHolder) viewHolder;
+                configureReviewTextViewHolder(vh4, position - 1);
+                break;
             case REVIEW:
                 ReviewViewHolder vh2 = (ReviewViewHolder) viewHolder;
                 configureReviewViewHolder(vh2, position - 1);
                 break;
+            case TRAILER_TEXT:
+                TrailerTextViewHolder vh5 = (TrailerTextViewHolder) viewHolder;
+                configureTrailerTextViewHolder(vh5, position - 1);
             default:
                 TrailerViewHolder vh3 = (TrailerViewHolder) viewHolder;
                 configureTrailerViewHolder(vh3, position - 1 - mReviewList.size());
                 break;
         }
+    }
+
+    private void configureReviewTextViewHolder(ReviewTextViewHolder vh4, int position) {
+        vh4.mReviewLabel.setText("REVIEW");
+    }
+
+    private void configureTrailerTextViewHolder(TrailerTextViewHolder vh5, int position) {
+        vh5.mTrailerLabel.setText("TRAILER");
     }
 
     private void configureOverviewViewHolder(OverviewViewHolder vh1, int position) {

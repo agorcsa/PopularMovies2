@@ -16,7 +16,7 @@ import com.example.andreeagorcsa.popularmovies2.models.Trailer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class OverviewViewHolder extends RecyclerView.ViewHolder {
 
     public static final String LOG_TAG = "DetailActivity";
 
@@ -50,33 +50,17 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder implements View.
     public OverviewViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        mFavoriteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i(LOG_TAG, "Favorite button was clicked");
-            }
-        });
-
-        mPlayTrailerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i(LOG_TAG, "PlayTrailer button was clicked");
-            }
-        });
+        mFavoriteButton.setOnClickListener(view -> favoriteClickHandler.onFavoriteClick(movie, mFavoriteButton));
+        mPlayTrailerButton.setOnClickListener(view -> favoriteClickHandler.onPlayTrailerClick());
     }
+
     public void setFavoriteClickHandler(FavoriteClickHandler favoriteClickHandler, Movie movie) {
         this.favoriteClickHandler = favoriteClickHandler;
         this.movie = movie;
     }
 
-    @Override
-    public void onClick(View v) {
-        favoriteClickHandler.onFavoriteClick(movie, mFavoriteButton);
-        favoriteClickHandler.onPlayTrailerClick(movie, trailer);
-    }
-
     public interface FavoriteClickHandler {
         void onFavoriteClick(Movie movie, Button button);
-        void onPlayTrailerClick(Movie movie, Trailer trailer);
+        void onPlayTrailerClick();
     }
 }
