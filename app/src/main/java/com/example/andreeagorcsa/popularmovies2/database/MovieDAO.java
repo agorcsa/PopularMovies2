@@ -30,13 +30,7 @@ public interface MovieDAO {
     @Query("SELECT * FROM MOVIE_TABLE ORDER BY MOVIE_ID")
     // the object Movie ArrayList is observed by LiveData
     // all the changes of the DB will be notified by LiveData which sends the update to the interface
-    LiveData<List<Movie>> showFavoriteMovies();
-
-    /*// queries the favorite movies
-    @Query("SELECT * FROM MOVIE_TABLE ORDER BY MOVIE_ID")
-    // the object Movie ArrayList is observed by LiveData
-    // all the changes of the DB will be notified by LiveData which sends the update to the interface
-    LiveData<List<Movie>> getFavoriteMovies();*/
+    LiveData<List<Movie>> getFavoriteMovies();
 
     @Query("SELECT * FROM MOVIE_TABLE WHERE MOVIE_ID = :movieId")
     Movie selectMovie(String movieId);

@@ -14,7 +14,7 @@ public class MainViewModel extends AndroidViewModel {
 
     private MovieRepository mRepository;
 
-    private LiveData<List<Movie>> mFavoriteMovies;
+    public LiveData<List<Movie>> mFavoriteMovies;
 
     public MainViewModel(Application application) {
         super(application);
@@ -23,6 +23,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Movie>> getFavoriteMovies() {
+        mFavoriteMovies = mRepository.getFavoriteMovies();
         return mFavoriteMovies;
     }
 

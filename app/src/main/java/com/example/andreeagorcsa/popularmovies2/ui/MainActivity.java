@@ -15,7 +15,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     public static final String SORT_TYPE = "sort_type";
 
     private String sortType = "popular";
-    private Toolbar mToolbar;
 
     @BindView(R.id.movie_recycler_view)
     RecyclerView mMovieRecyclerView;
@@ -60,32 +58,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     private GridLayoutManager mGridLayoutManager;
     private List<Movie> mMovieList;
 
+    private List<Movie> mFavoriteMovies = new ArrayList<>();
+
     // DataBinding
     ActivityMainBinding mBinding;
 
     // ViewModel
-    private MainViewModel movieViewModel;
+    private MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        movieViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        movieViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
-            @Override
-            public void onChanged(List<Movie> movies) {
-                mMovieAdapter.setMovieList(movies);
-            }
-        });
+        setSupportActionBar(mBinding.toolbarMain);
+        mBinding.toolbarMain.setTitle("Popular Movies");
+        mBinding.toolbarMain.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
 
         ButterKnife.bind(this);
-
-        mToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(mToolbar);
-        mToolbar.setTitle("Popular Movies");
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
 
         buildMovieRecyclerView();
 
@@ -134,6 +127,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         startActivity(movieIntent);
     }
 
+    public void readFavoritesFromDatabase() {
+
+        mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(List<Movie> movies) {
+
+                mMovieAdapter.setMovieList(movies);
+            }
+        });
+
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -168,8 +173,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                     new MovieAsyncTask().execute(sortType);
                 } else if ((parent.getItemAtPosition(position).equals(IS_FAVORITE))) {
                     Toast.makeText(getApplicationContext(), spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
-                    sortType = "favorite";
-                    new MovieAsyncTask().execute(sortType);
+                    /*sortType = "favorite";
+                    new MovieAsyncTask().execute(sortType);*/
+                    // new FavoriteAsyncTask().execute();
                 } else {
                     // no toast
                 }

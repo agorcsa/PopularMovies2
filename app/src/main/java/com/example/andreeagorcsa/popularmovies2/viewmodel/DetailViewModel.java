@@ -40,10 +40,6 @@ public class DetailViewModel extends AndroidViewModel {
        mRepository.toggleFavorite(this.movie);
    }
 
-   public void playFirstTrailer(Movie movie) {
-
-   }
-
     public void update(Movie movie) {
         mRepository.update(movie);
     }

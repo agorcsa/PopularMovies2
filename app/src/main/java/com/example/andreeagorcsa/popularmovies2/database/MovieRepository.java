@@ -19,21 +19,18 @@ public class MovieRepository {
 
     private LiveData<List<Movie>> favoriteMovies;
 
-    private MovieRoomDatabase movieRoomDatabase;
-
     public MutableLiveData<Boolean> isFavourite = new MutableLiveData<>();
-
-    private long longVar;
 
     // constructor
     // application is a subclass of context
     public MovieRepository(Application application) {
         MovieDatabase movieDatabase = MovieDatabase.getInstance(application);
         movieDAO = movieDatabase.movieDAO();
-        favoriteMovies = movieDAO.showFavoriteMovies();
+        favoriteMovies = movieDAO.getFavoriteMovies();
     }
 
     public LiveData<List<Movie>> getFavoriteMovies() {
+        favoriteMovies = movieDAO.getFavoriteMovies();
         return favoriteMovies;
     }
 

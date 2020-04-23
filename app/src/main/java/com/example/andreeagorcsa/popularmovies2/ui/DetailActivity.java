@@ -7,13 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,6 +30,7 @@ import com.example.andreeagorcsa.popularmovies2.viewmodel.DetailViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,8 +61,6 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
     private double mPopularity;
     private String mReleaseDate;
 
-    private Boolean globalBoolean;
-
     private List<Review> mReviewList = new ArrayList<>();
     private List<Trailer> mTrailerList = new ArrayList<>();
 
@@ -71,11 +68,17 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
 
     private ActivityDetailBinding detailBinding;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_detail);
+
         detailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+
+        setSupportActionBar(detailBinding.toolbarDetail);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         ButterKnife.bind(this);
 

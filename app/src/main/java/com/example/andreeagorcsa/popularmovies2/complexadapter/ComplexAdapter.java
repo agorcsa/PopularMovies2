@@ -42,8 +42,8 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     // the items to display in your RecyclerView: OverView, Review, Trailer
     private Movie mMovie;
-    private List<Review> mReviewList = new ArrayList<>();
-    private List<Trailer> mTrailerList = new ArrayList<>();
+    private List<Review> mReviewList;
+    private List<Trailer> mTrailerList;
 
     private boolean isFavourite;
 
@@ -89,7 +89,7 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-
+        Log.i("position - item type", position + " - " + viewHolder.getItemViewType());
         switch (viewHolder.getItemViewType()) {
             case OVERVIEW:
                 OverviewViewHolder vh1 = (OverviewViewHolder) viewHolder;
@@ -101,7 +101,7 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case REVIEW:
                 ReviewViewHolder vh2 = (ReviewViewHolder) viewHolder;
-                configureReviewViewHolder(vh2, position - 1);
+                configureReviewViewHolder(vh2, position - 2);
                 break;
             case TRAILER_TEXT:
                 TrailerTextViewHolder vh5 = (TrailerTextViewHolder) viewHolder;
@@ -109,19 +109,19 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             default:
                 TrailerViewHolder vh3 = (TrailerViewHolder) viewHolder;
-                configureTrailerViewHolder(vh3, position - 1 - mReviewList.size());
-                Log.i("mReviewList", String.valueOf(mReviewList.size()));
+                configureTrailerViewHolder(vh3, position - mReviewList.size() - 3);
                 break;
-
         }
     }
 
     private void configureReviewTextViewHolder(ReviewTextViewHolder vh4) {
-        vh4.mReviewLabel.setText("REVIEW");
+        if (mReviewList.size() > 0) {
+            vh4.mReviewLabel.setText("REVIEWS");}
     }
 
     private void configureTrailerTextViewHolder(TrailerTextViewHolder vh5) {
-        vh5.mTrailerLabel.setText("TRAILER");
+        if (mTrailerList.size() > 0) {
+        vh5.mTrailerLabel.setText("TRAILERS");}
     }
 
     private void configureOverviewViewHolder(OverviewViewHolder vh1) {
@@ -181,7 +181,7 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (mMovie == null && mReviewList == null && mTrailerList == null) {
             return 0;
         }
-        return 1 + mReviewList.size() + mTrailerList.size();
+        return 1 + 1 + mReviewList.size() + 1 + mTrailerList.size();
     }
 
     public void updateMovie(Movie movie) {
@@ -206,9 +206,9 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return OVERVIEW;
         } else if (position == 1) {
             return REVIEW_TEXT;
-        } else if (position > 1 && position <= mReviewList.size()) {
+        } else if (position > 1 && position <= ((mReviewList.size() -1 ) + 2)) {
             return REVIEW;
-        } else if (position == (mReviewList.size() - 1) + 2) {
+        } else if (position == (mReviewList.size() - 1) + 3) {
             return TRAILER_TEXT;
         } else {
             return TRAILER;
