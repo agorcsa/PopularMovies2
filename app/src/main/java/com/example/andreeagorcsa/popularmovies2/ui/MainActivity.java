@@ -77,15 +77,30 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
+        readFavoritesFromDatabase();
 
         ButterKnife.bind(this);
 
         buildMovieRecyclerView();
 
-        internetConnectionCheck();
-
         if (savedInstanceState != null) {
             sortType = savedInstanceState.getString(SORT_TYPE);
+            assert sortType != null;
+            if (sortType.equals(IS_FAVORITE)) {
+                mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
+                    @Override
+                    public void onChanged(List<Movie> movies) {
+                        mFavoriteMovies = movies;
+                        mMovieAdapter.setMovieList(mFavoriteMovies);
+                    }
+                });
+            } else if (sortType.equals(MOST_POPULAR)){
+                new MovieAsyncTask().execute(JsonUtils.POPULARITY);
+            } else {
+                new MovieAsyncTask().execute(JsonUtils.TOP_RATED);
+            }
+        } else {
+           checkForConnection(JsonUtils.POPULARITY);
         }
     }
 
@@ -104,20 +119,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         mMovieRecyclerView.setAdapter(mMovieAdapter);
     }
 
-    public void internetConnectionCheck() {
-        // checking for Internet connection
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-
-        if (isConnected == true) {
-            // running a new AsyncTask with the key word POPULARITY
-            new MovieAsyncTask().execute(JsonUtils.POPULARITY);
-        } else {
-            Toast.makeText(MainActivity.this, "No Internet connection", Toast.LENGTH_LONG).show();
-        }
-    }
 
     @Override
     public void onItemClick(Movie movie) {
@@ -128,17 +129,31 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     }
 
     public void readFavoritesFromDatabase() {
-
         mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-
-                mMovieAdapter.setMovieList(movies);
+                mFavoriteMovies = movies;
             }
         });
-
     }
 
+    public void checkForConnection(String sortType) {
+        if (internetConnectionCheck()) {
+            new MovieAsyncTask().execute(sortType);
+        } else {
+            Toast.makeText(MainActivity.this, "No Internet connection", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean internetConnectionCheck() {
+        // checking for Internet connection
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        return isConnected;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -173,11 +188,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                     new MovieAsyncTask().execute(sortType);
                 } else if ((parent.getItemAtPosition(position).equals(IS_FAVORITE))) {
                     Toast.makeText(getApplicationContext(), spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
-                    /*sortType = "favorite";
-                    new MovieAsyncTask().execute(sortType);*/
-                    // new FavoriteAsyncTask().execute();
+                    sortType = "favorite";
+                    mMovieAdapter.setMovieList(mFavoriteMovies);
                 } else {
-                    // no toast
+
                 }
             }
 

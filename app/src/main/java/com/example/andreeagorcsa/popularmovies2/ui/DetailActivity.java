@@ -158,7 +158,7 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
             String key = mTrailerList.get(0).getKey();
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(VIDEO_URI + key)));
         } else {
-            throw new Error("No trailers in the list");
+            Toast.makeText(this, "No trailers in the list", Toast.LENGTH_SHORT).show();
         }
     }
 
