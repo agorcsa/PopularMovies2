@@ -7,5 +7,5 @@
     <dimen name="text_size">16sp</dimen>
     <dimen name="poster_width">120dp</dimen>
     <dimen name="poster_height">180dp</dimen>
-    <dimen name="card_view_margin">2dp</dimen>
+    <dimen name="card_view_margin">4dp</dimen>
 </resources>

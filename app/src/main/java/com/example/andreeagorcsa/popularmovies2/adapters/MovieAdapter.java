@@ -4,11 +4,11 @@ import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.andreeagorcsa.popularmovies2.BR;
 import com.example.andreeagorcsa.popularmovies2.R;
@@ -27,6 +27,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieItemVie
 
     private List<Movie> mMovieList;
     private ItemClickHandler itemClickHandler;
+
+    private Context context;
 
     /**
      * Constructor for the MovieAdapter

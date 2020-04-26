@@ -44,12 +44,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     public static final String LOG_TAG = MainActivity.class.getName();
 
     public static final String MOVIE_OBJECT = "movie_object";
-    public static final String TOP_RATED = "top rated";
+
+   /* public static final String TOP_RATED = "top rated";
     public static final String MOST_POPULAR = "most popular";
-    public static final String IS_FAVORITE = "favorite";
+    public static final String IS_FAVORITE = "favorite";*/
+
+    public static final int MOST_POPULAR = 0;
+    public static final int TOP_RATED = 1;
+    public static final int IS_FAVORITE = 2;
+
     public static final String SORT_TYPE = "sort_type";
 
-    private String sortType = "popular";
+    private int sortType = MOST_POPULAR;
 
     @BindView(R.id.movie_recycler_view)
     RecyclerView mMovieRecyclerView;
@@ -84,9 +90,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         buildMovieRecyclerView();
 
         if (savedInstanceState != null) {
-            sortType = savedInstanceState.getString(SORT_TYPE);
-            assert sortType != null;
-            if (sortType.equals(IS_FAVORITE)) {
+            sortType = savedInstanceState.getInt(SORT_TYPE);
+            if (sortType == IS_FAVORITE) {
                 mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
                     @Override
                     public void onChanged(List<Movie> movies) {
@@ -94,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                         mMovieAdapter.setMovieList(mFavoriteMovies);
                     }
                 });
-            } else if (sortType.equals(MOST_POPULAR)){
+            } else if (sortType == MOST_POPULAR){
                 new MovieAsyncTask().execute(JsonUtils.POPULARITY);
             } else {
                 new MovieAsyncTask().execute(JsonUtils.TOP_RATED);
@@ -107,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(SORT_TYPE, sortType);
+        outState.putInt(SORT_TYPE, sortType);
     }
 
     private void buildMovieRecyclerView() {
@@ -165,33 +170,29 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
         final Spinner spinner = (Spinner) spinnerItem.getActionView();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item,
-                getResources().getStringArray(R.array.change_movie));
+        ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_item,
+                 MainActivity.this.getResources().getTextArray(R.array.change_movie_color));
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(arrayAdapter);
 
+        sortType = spinner.getSelectedItemPosition();
+        spinner.setSelection(sortType, false);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (parent.getItemAtPosition(position).equals(TOP_RATED)) {
-                    // show the top rated movies
-                    Toast.makeText(getApplicationContext(), spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
-                    sortType = "top_rated";
-                    new MovieAsyncTask().execute(sortType);
-                } else if (parent.getItemAtPosition(position).equals(MOST_POPULAR)) {
-                    // show the most popular movies
-                    Toast.makeText(getApplicationContext(), spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
-                    sortType = "popular";
-                    new MovieAsyncTask().execute(sortType);
-                } else if ((parent.getItemAtPosition(position).equals(IS_FAVORITE))) {
-                    Toast.makeText(getApplicationContext(), spinner.getSelectedItem() + " movies selected", Toast.LENGTH_SHORT).show();
-                    sortType = "favorite";
+                if (position == TOP_RATED) {
+                    sortType = TOP_RATED;
+                    new MovieAsyncTask().execute(JsonUtils.TOP_RATED);
+                } else if (position == MOST_POPULAR) {
+                    sortType = MOST_POPULAR;
+                    new MovieAsyncTask().execute(JsonUtils.POPULARITY);
+                } else if (position == IS_FAVORITE) {
+                    sortType = IS_FAVORITE;
                     mMovieAdapter.setMovieList(mFavoriteMovies);
-                } else {
-
                 }
             }
 
@@ -217,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         @Override
         protected List<Movie> doInBackground(String... url) {
             try {
-                String moviesUrl = JsonUtils.buildUrl(sortType);
+                String moviesUrl = JsonUtils.buildUrl(url[0]);
                 mMovieList = JsonUtils.fetchMovieData(moviesUrl);
                 Thread.sleep(1000);
             } catch (IOException e) {
@@ -230,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             return mMovieList;
         }
 
+
         @Override
         protected void onPostExecute(List<Movie> movies) {
             mMovieList = movies;
@@ -238,6 +240,39 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             } else {
                 Toast.makeText(MainActivity.this, "Your movie list is empty", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        switch (sortType) {
+            case MOST_POPULAR:
+                new MovieAsyncTask().execute(JsonUtils.POPULARITY);
+                break;
+            case TOP_RATED:
+                new MovieAsyncTask().execute(JsonUtils.TOP_RATED);
+                break;
+            default:
+                mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
+                    @Override
+                    public void onChanged(List<Movie> movies) {
+                        mFavoriteMovies = movies;
+
+                        Toast.makeText(getApplicationContext(), "Favorite list is empty", Toast.LENGTH_LONG).show();
+                        mMovieAdapter.setMovieList(mFavoriteMovies);
+                        /*if (mFavoriteMovies.isEmpty()) {
+
+                            Toast.makeText(getApplicationContext(), "Favorite list is empty", Toast.LENGTH_LONG).show();
+
+                            mBinding.movieRecyclerView.setVisibility(View.INVISIBLE);
+                            mBinding.cardViewEmptyList.setVisibility(View.VISIBLE);
+                        }
+                            mMovieAdapter.setMovieList(mFavoriteMovies);
+                    }*/
+                    }
+                });
         }
     }
 }

@@ -150,6 +150,7 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         setFavoriteButtonEnabled(vh1);
     }
 
+    // switches the value of the favorite button from "+" to "-" in DetailActivity
     public void setFavoriteButtonEnabled(OverviewViewHolder overviewViewHolder) {
         if (isFavourite) {
             overviewViewHolder.mFavoriteButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_remove, 0, 0, 0);

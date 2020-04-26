@@ -2,12 +2,16 @@
     <string name="app_name">Popular Movies 2</string>
     <string name="app_detail">Detail Activity</string>
 
-
     <string-array name="change_movie">
         <item>most popular</item>
         <item>top rated</item>
         <item>favorite</item>
+    </string-array>
 
+    <string-array name="change_movie_color" >
+        <item ><FONT COLOR="#00574B"><b>most popular</b></FONT></item>
+        <item ><FONT COLOR="#00574B"><b>top rated</b></FONT></item>
+        <item ><FONT COLOR="#00574B"><b>favorite</b></FONT></item>
     </string-array>
 
     <string name="poster_background">fade_background</string>
