@@ -50,7 +50,7 @@
                         android:lines="3"
                         android:minLines="1"
                         android:text="@{movie.originalTitle}"
-                        android:textColor="@android:color/darker_gray"
+                        android:textColor="@android:color/black"
                         android:textSize="15sp"/>
 
                 </FrameLayout>

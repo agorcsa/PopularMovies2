@@ -2,6 +2,7 @@ package com.example.andreeagorcsa.popularmovies2.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -171,10 +173,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         final Spinner spinner = (Spinner) spinnerItem.getActionView();
 
         ArrayAdapter<CharSequence> arrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_item,
-                 MainActivity.this.getResources().getTextArray(R.array.change_movie_color));
+                 MainActivity.this.getResources().getTextArray(R.array.change_movie));
 
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        spinner.setPopupBackgroundResource(R.color.colorPrimaryDark);
         spinner.setAdapter(arrayAdapter);
 
         sortType = spinner.getSelectedItemPosition();
@@ -260,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                     public void onChanged(List<Movie> movies) {
                         mFavoriteMovies = movies;
 
-                        Toast.makeText(getApplicationContext(), "Favorite list is empty", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "Favorite list is empty", Toast.LENGTH_LONG).show();
                         mMovieAdapter.setMovieList(mFavoriteMovies);
                         /*if (mFavoriteMovies.isEmpty()) {
 

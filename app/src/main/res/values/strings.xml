@@ -8,12 +8,6 @@
         <item>favorite</item>
     </string-array>
 
-    <string-array name="change_movie_color" >
-        <item ><FONT COLOR="#00574B"><b>most popular</b></FONT></item>
-        <item ><FONT COLOR="#00574B"><b>top rated</b></FONT></item>
-        <item ><FONT COLOR="#00574B"><b>favorite</b></FONT></item>
-    </string-array>
-
     <string name="poster_background">fade_background</string>
     <string name="white_background">white_background</string>
     <string name="movie_poster_center">center_poster</string>
