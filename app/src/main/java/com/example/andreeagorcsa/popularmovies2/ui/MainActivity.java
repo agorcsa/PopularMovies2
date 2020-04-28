@@ -16,6 +16,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,9 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.adapters.MovieAdapter;
@@ -37,6 +37,7 @@ import com.example.andreeagorcsa.popularmovies2.viewmodel.MainViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     public static final String LOG_TAG = MainActivity.class.getName();
 
     public static final String MOVIE_OBJECT = "movie_object";
+
+    public static final String SCROLL_STATE = "scroll_state";
 
    /* public static final String TOP_RATED = "top rated";
     public static final String MOST_POPULAR = "most popular";
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     // ViewModel
     private MainViewModel mainViewModel;
+
+    private Parcelable scrollState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +120,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SORT_TYPE, sortType);
+        outState.putParcelable(SCROLL_STATE, mMovieRecyclerView.getLayoutManager().onSaveInstanceState());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        scrollState = savedInstanceState.getParcelable(SCROLL_STATE);
     }
 
     private void buildMovieRecyclerView() {
@@ -124,8 +136,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         mMovieAdapter = new MovieAdapter(this, mMovieList);
         mMovieRecyclerView.setLayoutManager(mGridLayoutManager);
         mMovieRecyclerView.setAdapter(mMovieAdapter);
+        if (scrollState != null) {
+            mMovieRecyclerView.getLayoutManager().onRestoreInstanceState(scrollState);
+        }
     }
-
 
     @Override
     public void onItemClick(Movie movie) {
@@ -247,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     @Override
     protected void onResume() {
         super.onResume();
-
         switch (sortType) {
             case MOST_POPULAR:
                 new MovieAsyncTask().execute(JsonUtils.POPULARITY);
@@ -256,24 +269,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                 new MovieAsyncTask().execute(JsonUtils.TOP_RATED);
                 break;
             default:
-                mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
-                    @Override
-                    public void onChanged(List<Movie> movies) {
-                        mFavoriteMovies = movies;
-
-                        //Toast.makeText(getApplicationContext(), "Favorite list is empty", Toast.LENGTH_LONG).show();
-                        mMovieAdapter.setMovieList(mFavoriteMovies);
-                        /*if (mFavoriteMovies.isEmpty()) {
-
-                            Toast.makeText(getApplicationContext(), "Favorite list is empty", Toast.LENGTH_LONG).show();
-
-                            mBinding.movieRecyclerView.setVisibility(View.INVISIBLE);
-                            mBinding.cardViewEmptyList.setVisibility(View.VISIBLE);
-                        }
-                            mMovieAdapter.setMovieList(mFavoriteMovies);
-                    }*/
-                    }
-                });
+                mMovieAdapter.setMovieList(mFavoriteMovies);
         }
     }
 }
