@@ -80,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="150dp"
                     android:layout_marginTop="110dp"
+                    android:textColor="#e17c39"
                     android:fontFamily="sans-serif" />
 
             </androidx.cardview.widget.CardView>
@@ -112,10 +113,11 @@
                     android:id="@+id/score_detail"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@color/colorYellow"
+                    android:background="#e17c39"
                     android:gravity="center_horizontal"
                     android:lines="2"
                     android:paddingTop="@dimen/layout_margin"
+                    android:textColor="@color/colorWhite"
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
@@ -126,23 +128,30 @@
             android:id="@+id/synopsis_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:layout_marginRight="@dimen/layout_margin"
             android:fontFamily="sans-serif"
             android:text="Synopsis"
+            android:layout_gravity="center"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
+        <me.biubiubiu.justifytext.library.JustifyTextView
             android:id="@+id/synopsis_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/layout_margin"
+            android:layout_marginLeft="30dp"
             android:layout_marginRight="@dimen/layout_margin"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorWhite" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#195f84"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="80dp"/>
     </LinearLayout>
 </layout>

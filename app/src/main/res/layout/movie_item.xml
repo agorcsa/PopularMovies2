@@ -22,10 +22,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
+            <com.example.andreeagorcsa.popularmovies2.image.TwoThreeImageView
                 android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="@bool/adjustViewBounds"
                 app:imageUrl="@{movie.moviePoster}"
                 android:contentDescription="@string/app_name" />
@@ -42,16 +43,15 @@
 
                     <TextView
                         android:id="@+id/movie_title"
-                        android:layout_width="120dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/layout_margin"
                         android:fontFamily="sans-serif"
-                        android:gravity="left"
-                        android:lines="3"
+                        android:lines="4"
                         android:minLines="1"
                         android:text="@{movie.originalTitle}"
                         android:textColor="@android:color/black"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
 
                 </FrameLayout>
             </LinearLayout>

@@ -2,11 +2,12 @@ package com.example.andreeagorcsa.popularmovies2.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,11 +49,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
     public static final String MOVIE_OBJECT = "movie_object";
 
+    public static final String MOVIE_LIST = "movie_list";
+
     public static final String SCROLL_STATE = "scroll_state";
 
-   /* public static final String TOP_RATED = "top rated";
-    public static final String MOST_POPULAR = "most popular";
-    public static final String IS_FAVORITE = "favorite";*/
 
     public static final int MOST_POPULAR = 0;
     public static final int TOP_RATED = 1;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         setSupportActionBar(mBinding.toolbarMain);
-        mBinding.toolbarMain.setTitle("Popular Movies");
+
         mBinding.toolbarMain.setTitleTextColor(getResources().getColor(R.color.colorWhite));
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
@@ -98,40 +98,50 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
         if (savedInstanceState != null) {
             sortType = savedInstanceState.getInt(SORT_TYPE);
+            mMovieList = savedInstanceState.getParcelableArrayList(MOVIE_LIST);
+            scrollState = savedInstanceState.getParcelable(SCROLL_STATE);
             if (sortType == IS_FAVORITE) {
                 mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
                     @Override
                     public void onChanged(List<Movie> movies) {
                         mFavoriteMovies = movies;
                         mMovieAdapter.setMovieList(mFavoriteMovies);
+                        restoreRecyclerViewPosition();
                     }
                 });
-            } else if (sortType == MOST_POPULAR){
-                new MovieAsyncTask().execute(JsonUtils.POPULARITY);
-            } else {
-                new MovieAsyncTask().execute(JsonUtils.TOP_RATED);
+            } else if (sortType == MOST_POPULAR || sortType == TOP_RATED){
+                mMovieAdapter.setMovieList(mMovieList);
+                restoreRecyclerViewPosition();
             }
         } else {
-           checkForConnection(JsonUtils.POPULARITY);
+            checkForConnection(JsonUtils.POPULARITY);
+        }
+    }
+
+    private void restoreRecyclerViewPosition() {
+        if (scrollState != null && mMovieRecyclerView.getLayoutManager() != null) {
+            mMovieRecyclerView.getLayoutManager().onRestoreInstanceState(scrollState);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putInt(SORT_TYPE, sortType);
         outState.putParcelable(SCROLL_STATE, mMovieRecyclerView.getLayoutManager().onSaveInstanceState());
+        outState.putParcelableArrayList(MOVIE_LIST, (ArrayList<? extends Parcelable>) mMovieList);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         scrollState = savedInstanceState.getParcelable(SCROLL_STATE);
+        mMovieList = savedInstanceState.getParcelableArrayList(MOVIE_LIST);
     }
+
 
     private void buildMovieRecyclerView() {
         mMovieRecyclerView.setHasFixedSize(true);
-        mMovieList = new ArrayList<>();
         mGridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.numberOfColumns));
         mMovieAdapter = new MovieAdapter(this, mMovieList);
         mMovieRecyclerView.setLayoutManager(mGridLayoutManager);
@@ -144,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
     @Override
     public void onItemClick(Movie movie) {
         Intent movieIntent = new Intent(this, DetailActivity.class);
-
         movieIntent.putExtra(MOVIE_OBJECT, movie);
         startActivity(movieIntent);
     }
@@ -192,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
         spinner.setPopupBackgroundResource(R.color.colorPrimaryDark);
         spinner.setAdapter(arrayAdapter);
 
-        sortType = spinner.getSelectedItemPosition();
+        // sortType = spinner.getSelectedItemPosition();
         spinner.setSelection(sortType, false);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -252,6 +261,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             mMovieList = movies;
             if (movies != null) {
                 mMovieAdapter.setMovieList(movies);
+               /* if (scrollState != null) {
+                    mMovieRecyclerView.getLayoutManager().onRestoreInstanceState(scrollState);
+                }*/
             } else {
                 Toast.makeText(MainActivity.this, "Your movie list is empty", Toast.LENGTH_SHORT).show();
             }

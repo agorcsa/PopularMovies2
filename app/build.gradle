@@ -56,5 +56,7 @@ dependencies {
 // Room
     implementation 'androidx.room:room-runtime:2.2.0-beta01'
     annotationProcessor 'androidx.room:room-compiler:2.2.0-beta01'
+// for justified Text
+    implementation 'me.biubiubiu.justifytext:library:1.1'
 }
 

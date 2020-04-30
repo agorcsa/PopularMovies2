@@ -16,9 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/layout_margin"
             android:layout_marginBottom="@dimen/layout_margin"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif"
-            android:textColor="#f8ef76"
+            android:textColor="#e17c39"
             android:layout_marginEnd="@dimen/layout_margin" />
 
         <com.ms.square.android.expandabletextview.ExpandableTextView
@@ -29,7 +29,7 @@
             expandableTextView:animDuration="200"
             expandableTextView:maxCollapsedLines="4">
 
-            <TextView
+            <me.biubiubiu.justifytext.library.JustifyTextView
                 android:id="@id/expandable_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,6 +47,7 @@
                 android:layout_gravity="center|bottom"
                 android:background="@android:color/transparent"
                 android:padding="16dp" />
+
         </com.ms.square.android.expandabletextview.ExpandableTextView>
 
     </LinearLayout>
