@@ -15,13 +15,13 @@ import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.Review
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.ReviewViewHolder;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerTextViewHolder;
 import com.example.andreeagorcsa.popularmovies2.complexadapter.viewholder.TrailerViewHolder;
+import com.example.andreeagorcsa.popularmovies2.justifytext.TextViewEx;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 import com.example.andreeagorcsa.popularmovies2.models.Review;
 import com.example.andreeagorcsa.popularmovies2.models.Trailer;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -116,12 +116,16 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void configureReviewTextViewHolder(ReviewTextViewHolder vh4) {
         if (mReviewList.size() > 0) {
-            vh4.mReviewLabel.setText("REVIEWS");}
+            vh4.mReviewLabel.setText("REVIEWS");
+
+        }
     }
 
     private void configureTrailerTextViewHolder(TrailerTextViewHolder vh5) {
         if (mTrailerList.size() > 0) {
-        vh5.mTrailerLabel.setText("TRAILERS");}
+        vh5.mTrailerLabel.setText("TRAILERS");
+
+        }
     }
 
     private void configureOverviewViewHolder(OverviewViewHolder vh1) {
@@ -148,6 +152,8 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         vh1.mMovieDate.setText(releaseDate);
         vh1.setFavoriteClickHandler(favoriteClickHandler,mMovie);
         setFavoriteButtonEnabled(vh1);
+
+
     }
 
     // switches the value of the favorite button from "+" to "-" in DetailActivity

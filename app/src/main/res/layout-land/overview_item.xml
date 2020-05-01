@@ -121,7 +121,7 @@
                     android:layout_marginTop="110dp"
                     android:fontFamily="sans-serif" />
 
-            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
         </FrameLayout>
     </LinearLayout>
 </layout>

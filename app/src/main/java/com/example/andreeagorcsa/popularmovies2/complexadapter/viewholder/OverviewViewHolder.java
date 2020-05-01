@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.andreeagorcsa.popularmovies2.R;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
-import com.example.andreeagorcsa.popularmovies2.models.Trailer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,8 +43,6 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder {
     Movie movie;
 
     private FavoriteClickHandler favoriteClickHandler;
-
-    private Trailer trailer;
 
     public OverviewViewHolder(@NonNull View itemView) {
         super(itemView);

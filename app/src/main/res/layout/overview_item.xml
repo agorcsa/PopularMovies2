@@ -137,16 +137,17 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <me.biubiubiu.justifytext.library.JustifyTextView
+        <com.example.andreeagorcsa.popularmovies2.justifytext.TextViewEx
             android:id="@+id/synopsis_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="@dimen/layout_margin"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorWhite" />
 
-        <View
+        <ImageView
+            android:id="@+id/blue_line_view"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#195f84"
