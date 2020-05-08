@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
@@ -165,6 +164,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             @Override
             public void onChanged(List<Movie> movies) {
                 mFavoriteMovies = movies;
+                if (mFavoriteMovies.isEmpty()) {
+                    mBinding.vectorImage.setVisibility(View.VISIBLE);
+                    mBinding.noFavoritesMessage.setVisibility(View.VISIBLE);
+                } else {
+                    mBinding.vectorImage.setVisibility(View.GONE);
+                    mBinding.noFavoritesMessage.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -261,8 +267,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             mMovieList = movies;
             if (movies != null) {
                 mMovieAdapter.setMovieList(movies);
+                mBinding.vectorImage.setVisibility(View.GONE);
+                mBinding.noFavoritesMessage.setVisibility(View.GONE);
             } else {
                 Toast.makeText(MainActivity.this, "Your movie list is empty", Toast.LENGTH_SHORT).show();
+                // You can also show an empty state here
             }
         }
     }
