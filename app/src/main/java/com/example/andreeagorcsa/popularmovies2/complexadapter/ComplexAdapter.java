@@ -117,14 +117,18 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void configureReviewTextViewHolder(ReviewTextViewHolder vh4) {
         if (mReviewList.size() > 0) {
             vh4.mReviewLabel.setText("REVIEWS");
-
+            vh4.mBlueLine.setVisibility(View.VISIBLE);
+        } else {
+            vh4.mBlueLine.setVisibility(View.GONE);
         }
     }
 
     private void configureTrailerTextViewHolder(TrailerTextViewHolder vh5) {
         if (mTrailerList.size() > 0) {
-        vh5.mTrailerLabel.setText("TRAILERS");
-
+            vh5.mTrailerLabel.setText("TRAILERS");
+            vh5.blueLineView.setVisibility(View.VISIBLE);
+        } else {
+            vh5.blueLineView.setVisibility(View.GONE);
         }
     }
 
@@ -141,7 +145,7 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 .into(vh1.mMoviePoster);
 
         String plotSynopsis = mMovie.getOverview();
-        vh1.mSynopsis.setText(plotSynopsis);
+        vh1.mSynopsis.setText(plotSynopsis, true);
 
         double userRating = mMovie.getVoteAverage();
         float userRatingFloat = BigDecimal.valueOf(userRating).floatValue();
@@ -152,8 +156,6 @@ public class ComplexAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         vh1.mMovieDate.setText(releaseDate);
         vh1.setFavoriteClickHandler(favoriteClickHandler,mMovie);
         setFavoriteButtonEnabled(vh1);
-
-
     }
 
     // switches the value of the favorite button from "+" to "-" in DetailActivity

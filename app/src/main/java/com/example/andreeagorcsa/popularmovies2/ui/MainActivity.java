@@ -2,6 +2,7 @@ package com.example.andreeagorcsa.popularmovies2.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
@@ -199,10 +201,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                  MainActivity.this.getResources().getTextArray(R.array.change_movie));
 
         spinner.setPopupBackgroundResource(R.color.colorPrimaryDark);
+        spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         spinner.setAdapter(arrayAdapter);
-
-        // sortType = spinner.getSelectedItemPosition();
-        spinner.setSelection(sortType, false);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -261,9 +261,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             mMovieList = movies;
             if (movies != null) {
                 mMovieAdapter.setMovieList(movies);
-               /* if (scrollState != null) {
-                    mMovieRecyclerView.getLayoutManager().onRestoreInstanceState(scrollState);
-                }*/
             } else {
                 Toast.makeText(MainActivity.this, "Your movie list is empty", Toast.LENGTH_SHORT).show();
             }

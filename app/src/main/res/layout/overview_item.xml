@@ -141,18 +141,9 @@
             android:id="@+id/synopsis_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="@dimen/layout_margin"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorWhite" />
-
-        <ImageView
-            android:id="@+id/blue_line_view"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#195f84"
-            android:layout_marginLeft="80dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="80dp"/>
     </LinearLayout>
 </layout>

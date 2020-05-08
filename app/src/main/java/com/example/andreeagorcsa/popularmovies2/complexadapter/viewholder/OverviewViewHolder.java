@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.andreeagorcsa.popularmovies2.R;
+import com.example.andreeagorcsa.popularmovies2.justifytext.TextViewEx;
 import com.example.andreeagorcsa.popularmovies2.models.Movie;
 
 import butterknife.BindView;
@@ -29,7 +30,7 @@ public class OverviewViewHolder extends RecyclerView.ViewHolder {
     ImageView mMoviePoster;
 
     public @BindView(R.id.synopsis_content)
-    TextView mSynopsis;
+    com.example.andreeagorcsa.popularmovies2.justifytext.TextViewEx mSynopsis;
 
     public @BindView(R.id.score_detail)
     TextView mScore;

@@ -136,6 +136,10 @@ public class DetailActivity extends AppCompatActivity implements TrailerViewHold
         mPopularity = movie.getPopularity();
         mUserRating = movie.getVoteAverage();
         mReleaseDate = movie.getReleaseDate();
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(movie.originalTitle);
+        }
     }
 
     @Override

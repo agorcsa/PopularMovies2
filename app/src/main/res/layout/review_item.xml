@@ -5,7 +5,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/colorBlack"
         android:orientation="vertical">
 
@@ -13,12 +13,11 @@
             android:id="@+id/reviewAuthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/layout_margin"
+            android:layout_marginLeft="15dp"
             android:layout_marginBottom="@dimen/layout_margin"
             android:textSize="18sp"
             android:fontFamily="sans-serif"
-            android:textColor="#e17c39"
-            android:layout_marginEnd="@dimen/layout_margin" />
+            android:textColor="#e17c39"/>
 
         <com.ms.square.android.expandabletextview.ExpandableTextView
             xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
@@ -32,12 +31,11 @@
                 android:id="@id/expandable_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/layout_margin"
+                android:layout_marginLeft="15dp"
                 android:layout_marginBottom="@dimen/layout_margin"
                 android:fontFamily="sans-serif"
                 android:lineSpacingExtra="4dp"
-                android:textColor="@color/colorWhite"
-                android:layout_marginEnd="@dimen/layout_margin" />
+                android:textColor="@color/colorWhite"/>
 
             <ImageButton
                 android:id="@id/expand_collapse"
@@ -45,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|bottom"
                 android:background="@android:color/transparent"
-                android:padding="16dp" />
+                android:padding="20dp" />
         </com.ms.square.android.expandabletextview.ExpandableTextView>
     </LinearLayout>
 </layout>

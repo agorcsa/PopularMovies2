@@ -11,10 +11,13 @@ import com.example.andreeagorcsa.popularmovies2.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TrailerTextViewHolder extends RecyclerView.ViewHolder{
+public class TrailerTextViewHolder extends RecyclerView.ViewHolder {
 
     public @BindView(R.id.trailer_label)
     TextView mTrailerLabel;
+
+    public @BindView(R.id.blue_line_view)
+    View blueLineView;
 
     public TrailerTextViewHolder(@NonNull View itemView) {
         super(itemView);
