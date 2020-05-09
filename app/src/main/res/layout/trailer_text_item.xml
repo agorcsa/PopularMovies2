@@ -12,8 +12,8 @@
             android:layout_height="2dp"
             android:background="#195f84"
             android:layout_marginLeft="80dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginRight="80dp"/>
 
         <TextView
@@ -21,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
             android:background="@color/colorBlack"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorWhite"

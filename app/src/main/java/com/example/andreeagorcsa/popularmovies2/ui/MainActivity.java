@@ -8,7 +8,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.andreeagorcsa.popularmovies2.R;
@@ -39,7 +39,6 @@ import com.example.andreeagorcsa.popularmovies2.viewmodel.MainViewModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
 
         setSupportActionBar(mBinding.toolbarMain);
 
-        mBinding.toolbarMain.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        mBinding.toolbarMain.setTitleTextColor(getResources().getColor(R.color.colorAccent));
 
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                     @Override
                     public void onChanged(List<Movie> movies) {
                         mFavoriteMovies = movies;
-                        mMovieAdapter.setMovieList(mFavoriteMovies);
+                        isFavoriteListEmpty();
                         restoreRecyclerViewPosition();
                     }
                 });
@@ -164,12 +163,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             @Override
             public void onChanged(List<Movie> movies) {
                 mFavoriteMovies = movies;
-                if (mFavoriteMovies.isEmpty()) {
-                    mBinding.vectorImage.setVisibility(View.VISIBLE);
-                    mBinding.noFavoritesMessage.setVisibility(View.VISIBLE);
-                } else {
-                    mBinding.vectorImage.setVisibility(View.GONE);
-                    mBinding.noFavoritesMessage.setVisibility(View.GONE);
+                if (sortType == IS_FAVORITE) {
+                    isFavoriteListEmpty();
                 }
             }
         });
@@ -222,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                     new MovieAsyncTask().execute(JsonUtils.POPULARITY);
                 } else if (position == IS_FAVORITE) {
                     sortType = IS_FAVORITE;
-                    mMovieAdapter.setMovieList(mFavoriteMovies);
+                    isFavoriteListEmpty();
                 }
             }
 
@@ -267,8 +262,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
             mMovieList = movies;
             if (movies != null) {
                 mMovieAdapter.setMovieList(movies);
-                mBinding.vectorImage.setVisibility(View.GONE);
-                mBinding.noFavoritesMessage.setVisibility(View.GONE);
+                hideNoFavoriteMessage();
             } else {
                 Toast.makeText(MainActivity.this, "Your movie list is empty", Toast.LENGTH_SHORT).show();
                 // You can also show an empty state here
@@ -287,7 +281,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Item
                 new MovieAsyncTask().execute(JsonUtils.TOP_RATED);
                 break;
             default:
-                mMovieAdapter.setMovieList(mFavoriteMovies);
+                readFavoritesFromDatabase();
+        }
+    }
+
+    public void showNoFavoriteMessage() {
+        mBinding.vectorImage.setVisibility(View.VISIBLE);
+        mBinding.noFavoritesMessage.setVisibility(View.VISIBLE);
+    }
+
+    public void hideNoFavoriteMessage() {
+        mBinding.vectorImage.setVisibility(View.GONE);
+        mBinding.noFavoritesMessage.setVisibility(View.GONE);
+    }
+
+    public void isFavoriteListEmpty() {
+        if (mFavoriteMovies.isEmpty()) {
+            showNoFavoriteMessage();
+            mMovieAdapter.setMovieList(mFavoriteMovies);
+        } else {
+            hideNoFavoriteMessage();
+            mMovieAdapter.setMovieList(mFavoriteMovies);
         }
     }
 }

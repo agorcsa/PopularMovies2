@@ -10,9 +10,9 @@
             android:id="@+id/blue_line_view_review"
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:layout_marginTop="30dp"
             android:background="#195f84"
             android:layout_marginLeft="80dp"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="80dp"/>
 
